@@ -1,0 +1,11 @@
+query ProductsGetByCategorySlug(
+	$slug: String!
+	$first: Int!
+	$skip: Int!
+) {
+	categories(where: { slug: $slug }) {
+		products(first: $first, skip: $skip) {
+			...ProductListItemFragment
+		}
+	}
+}

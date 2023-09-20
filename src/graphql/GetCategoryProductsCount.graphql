@@ -1,0 +1,7 @@
+query GetCategoryProductsCount($slug: String!) {
+	categories(where: { slug: $slug }) {
+		products {
+			id
+		}
+	}
+}

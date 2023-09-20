@@ -1,15 +1,14 @@
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { type Route } from "next";
 import { ActiveLink } from "../atoms/ActiveLink";
-import { getProductsCount } from "@/api/products";
 
-export const Pagination = async () => {
-	const products = await getProductsCount();
-
-	const pages = Array.from(
-		{ length: Math.ceil(products / 4) },
-		(_, index) => index + 1,
-	);
-
+export const Pagination = async ({
+	pages,
+	href,
+}: {
+	pages: number[];
+	href: string;
+}) => {
 	return (
 		<>
 			<div
@@ -24,7 +23,7 @@ export const Pagination = async () => {
 						<ActiveLink
 							className="cursor-pointer pr-2 text-gray-500"
 							key={item}
-							href={`/products/${item}`}
+							href={`/${href}/${item}` as Route}
 							activeClassName="underline"
 							exact={true}
 						>

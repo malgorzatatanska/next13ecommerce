@@ -47,6 +47,26 @@ export const Header = () => {
 										All
 									</ActiveLink>
 								</li>
+								<li>
+									<ActiveLink
+										href="/categories/accessories/1"
+										className="text-gray-500 transition hover:text-gray-500/75"
+										activeClassName="border-b-2 border-b-pink-500"
+										exact={false}
+									>
+										Accesories
+									</ActiveLink>
+								</li>
+								<li>
+									<ActiveLink
+										href="/categories/t-shirts/1"
+										className="text-gray-500 transition hover:text-gray-500/75"
+										activeClassName="border-b-2 border-b-pink-500"
+										exact={false}
+									>
+										T-shirts
+									</ActiveLink>
+								</li>
 							</ul>
 						</nav>
 					</div>

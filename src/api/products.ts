@@ -4,8 +4,10 @@ import {
 	type ProductItemType,
 } from "@/ui/types";
 import {
+	GetCategoryProductsCountDocument,
 	ProductGetListDocument,
 	ProductsCountDocument,
+	ProductsGetByCategorySlugDocument,
 } from "@/gql/graphql";
 
 export const getProductById = async (
@@ -44,6 +46,43 @@ export const getProductsCount = async (): Promise<number> => {
 	);
 
 	return productCount.products?.length || 0;
+};
+
+export const getProductByCategorySlug = async (
+	categorySlug: string,
+	page: string,
+) => {
+	const categories = await executeGraphql(
+		ProductsGetByCategorySlugDocument,
+		{
+			slug: categorySlug,
+			first: 4,
+			skip: page ? (parseInt(page) - 1) * 4 : 0,
+		},
+	);
+
+	if (!categories) {
+		return [];
+	}
+
+	return categories.categories[0].products || [];
+};
+
+export const getCategoryProductsCount = async (
+	slug: string,
+): Promise<number> => {
+	const productsCount = await executeGraphql(
+		GetCategoryProductsCountDocument,
+		{
+			slug,
+		},
+	);
+	console.log(productsCount);
+	if (!productsCount) {
+		return 0;
+	}
+
+	return productsCount.categories[0].products?.length || 0;
 };
 
 const productResponseItemToProductItemType = (

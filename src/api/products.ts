@@ -1,26 +1,14 @@
 import { executeGraphql } from "./graphqlApi";
+
 import {
-	type ProductResponseItemType,
-	type ProductItemType,
-} from "@/ui/types";
-import {
+	CollectionGetByIdDocument,
+	GetCategoryProductsCountDocument,
+	GetProductBySlugDocument,
 	ProductGetListDocument,
 	ProductsCountDocument,
+	ProductsGetByCategorySlugDocument,
+	SearchProductsDocument,
 } from "@/gql/graphql";
-
-export const getProductById = async (
-	id: ProductResponseItemType["id"],
-) => {
-	const res = await fetch(
-		`https://naszsklep-api.vercel.app/api/products/${id}`,
-	);
-
-	const productResponse =
-		(await res.json()) as ProductResponseItemType;
-
-	return productResponseItemToProductItemType(productResponse);
-};
-
 export const getProductsList = async (pageNumber: string) => {
 	const graphqlResonse = await executeGraphql(
 		ProductGetListDocument,
@@ -46,18 +34,73 @@ export const getProductsCount = async (): Promise<number> => {
 	return productCount.products?.length || 0;
 };
 
-const productResponseItemToProductItemType = (
-	productsResponse: ProductResponseItemType,
-): ProductItemType => {
-	return {
-		id: productsResponse.id,
-		category: productsResponse.category,
-		name: productsResponse.title,
-		price: productsResponse.price,
-		coverImage: {
-			alt: productsResponse.title,
-			src: productsResponse.image,
+export const getProductByCategorySlug = async (
+	categorySlug: string,
+	page: string,
+) => {
+	const categories = await executeGraphql(
+		ProductsGetByCategorySlugDocument,
+		{
+			slug: categorySlug,
+			first: 4,
+			skip: page ? (parseInt(page) - 1) * 4 : 0,
 		},
-		description: productsResponse.description,
-	};
+	);
+
+	if (!categories) {
+		return [];
+	}
+
+	return categories.categories[0].products || [];
+};
+
+export const getCategoryProductsCount = async (
+	slug: string,
+): Promise<number> => {
+	const productsCount = await executeGraphql(
+		GetCategoryProductsCountDocument,
+		{
+			slug,
+		},
+	);
+	if (!productsCount) {
+		return 0;
+	}
+
+	return productsCount.categories[0].products?.length || 0;
+};
+
+export const getProductBySlug = async (slug: string) => {
+	const product = await executeGraphql(GetProductBySlugDocument, {
+		slug,
+	});
+
+	if (!product) {
+		return null;
+	}
+
+	return product.product;
+};
+
+export const getCollectionById = async (collectionId: string) => {
+	const collection = await executeGraphql(CollectionGetByIdDocument, {
+		id: collectionId,
+	});
+
+	if (!collection) {
+		return null;
+	}
+
+	return collection.collection;
+};
+
+export const getSearchProducts = async (searchValue: string) => {
+	const searchResponse = await executeGraphql(
+		SearchProductsDocument,
+		{
+			name: searchValue,
+		},
+	);
+
+	return searchResponse.products;
 };

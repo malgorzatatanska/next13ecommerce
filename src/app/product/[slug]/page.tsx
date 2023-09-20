@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
-import { getProductById } from "@/api/products";
+import { notFound } from "next/navigation";
+import { getProductBySlug } from "@/api/products";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProducts";
 import { SingleProduct } from "@/ui/organisms/SingleProduct";
 
@@ -15,17 +16,17 @@ import { SingleProduct } from "@/ui/organisms/SingleProduct";
 export const generateMetadata = async ({
 	params,
 }: {
-	params: { productId: string };
+	params: { slug: string };
 }): Promise<Metadata> => {
-	const product = await getProductById(params.productId);
+	const product = await getProductBySlug(params.slug);
 
 	return {
-		title: `${product.name}`,
-		description: `${product.description}`,
+		title: `${product?.name}`,
+		description: `${product?.description}`,
 		openGraph: {
-			title: `${product.name}`,
-			description: `${product.description}`,
-			images: [{ url: `${product.coverImage.src}` }],
+			title: `${product?.name}`,
+			description: `${product?.description}`,
+			images: [{ url: `${product?.images[0].url}` }],
 		},
 	};
 };
@@ -33,9 +34,13 @@ export const generateMetadata = async ({
 export default async function Product({
 	params,
 }: {
-	params: { productId: string };
+	params: { slug: string };
 }) {
-	const product = await getProductById(params.productId);
+	const product = await getProductBySlug(params.slug);
+
+	if (!product) {
+		return notFound();
+	}
 
 	return (
 		<>
@@ -45,7 +50,9 @@ export default async function Product({
 			<aside>
 				<Suspense fallback="Loading ...">
 					<div className="mx-auto max-w-2xl">
-						<SuggestedProductsList />
+						<SuggestedProductsList
+							categorySlug={product.categories[0].slug}
+						/>
 					</div>
 				</Suspense>
 			</aside>

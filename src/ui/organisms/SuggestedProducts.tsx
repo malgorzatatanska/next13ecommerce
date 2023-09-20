@@ -1,8 +1,14 @@
 import { ProductList } from "./ProductList";
-import { getProductsList } from "@/api/products";
+import { getProductByCategorySlug } from "@/api/products";
 
-export const SuggestedProductsList = async () => {
-	const products = await getProductsList("1");
+type SuggestedProductsProps = {
+	categorySlug: string;
+};
+
+export const SuggestedProductsList = async ({
+	categorySlug,
+}: SuggestedProductsProps) => {
+	const products = await getProductByCategorySlug(categorySlug, "1");
 
 	return <ProductList products={products} />;
 };

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
+import { Search } from "../atoms/Search";
 
 export const Header = () => {
 	return (
@@ -47,11 +48,34 @@ export const Header = () => {
 										All
 									</ActiveLink>
 								</li>
+								<li>
+									<ActiveLink
+										href="/categories/accessories/1"
+										className="text-gray-500 transition hover:text-gray-500/75"
+										activeClassName="border-b-2 border-b-pink-500"
+										exact={false}
+									>
+										Accesories
+									</ActiveLink>
+								</li>
+								<li>
+									<ActiveLink
+										href="/categories/t-shirts/1"
+										className="text-gray-500 transition hover:text-gray-500/75"
+										activeClassName="border-b-2 border-b-pink-500"
+										exact={false}
+									>
+										T-shirts
+									</ActiveLink>
+								</li>
 							</ul>
 						</nav>
 					</div>
 
 					<div className="flex items-center gap-4">
+						<div>
+							<Search />
+						</div>
 						<div className="sm:flex sm:gap-4">
 							<Link
 								className="rounded-md bg-pink-300 px-5 py-2.5 text-sm font-medium text-white shadow"

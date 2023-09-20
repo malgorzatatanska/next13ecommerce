@@ -1,0 +1,13 @@
+query ProductsCount {
+	products {
+		id
+	}
+}
+# query ProductsCount {
+# 	productsConnection {
+# 		pageInfo {
+# 			pageSize
+
+# 		}
+# 	}
+# }

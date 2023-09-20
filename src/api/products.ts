@@ -1,7 +1,12 @@
+import { executeGraphql } from "./graphqlApi";
 import {
 	type ProductResponseItemType,
 	type ProductItemType,
 } from "@/ui/types";
+import {
+	ProductGetListDocument,
+	ProductsCountDocument,
+} from "@/gql/graphql";
 
 export const getProductById = async (
 	id: ProductResponseItemType["id"],
@@ -37,6 +42,31 @@ export const getProductsList = async ({
 	);
 
 	return products;
+};
+
+export const getProductsListNew = async (pageNumber: string) => {
+	const graphqlResonse = await executeGraphql(
+		ProductGetListDocument,
+		{
+			first: 4,
+			skip: pageNumber ? (parseInt(pageNumber) - 1) * 4 : 0,
+		},
+	);
+
+	if (!graphqlResonse.products) {
+		return [];
+	}
+
+	return graphqlResonse.products;
+};
+
+export const getProductsCount = async (): Promise<number> => {
+	const productCount = await executeGraphql(
+		ProductsCountDocument,
+		{},
+	);
+
+	return productCount.products?.length || 0;
 };
 
 const productResponseItemToProductItemType = (

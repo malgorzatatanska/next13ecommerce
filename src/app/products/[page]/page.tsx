@@ -1,4 +1,4 @@
-import { getProductsCount, getProductsListNew } from "@/api/products";
+import { getProductsCount, getProductsList } from "@/api/products";
 import { numberOfProductsOnThePage } from "@/ui/consts";
 import { ProductList } from "@/ui/organisms/ProductList";
 
@@ -20,7 +20,7 @@ export default async function ProductsPage({
 }: {
 	params: { page: string };
 }) {
-	const productsList = await getProductsListNew(params.page);
+	const productsList = await getProductsList(params.page);
 
 	return (
 		<div className="mx-auto text-gray-500">

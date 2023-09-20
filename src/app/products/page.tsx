@@ -1,8 +1,12 @@
-import { getProductsList } from "@/api/products";
+import { getProductsListNew } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
 
 export default async function Products() {
-	const products = await getProductsList({ take: "20", offset: "0" });
+	const products = await getProductsListNew("1");
+
+	if (!products) {
+		return <div>loading...</div>;
+	}
 
 	return (
 		<>

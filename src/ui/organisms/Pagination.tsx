@@ -1,12 +1,12 @@
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { ActiveLink } from "../atoms/ActiveLink";
-import { getProductsList } from "@/api/products";
+import { getProductsCount } from "@/api/products";
 
 export const Pagination = async () => {
-	const products = await getProductsList({});
+	const products = await getProductsCount();
 
 	const pages = Array.from(
-		{ length: Math.ceil(products.length / 4) },
+		{ length: Math.ceil(products / 4) },
 		(_, index) => index + 1,
 	);
 

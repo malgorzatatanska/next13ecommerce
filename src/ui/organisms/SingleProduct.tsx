@@ -1,8 +1,10 @@
-import { type ProductItemType } from "../types";
+import Link from "next/link";
+import { type Route } from "next";
+import { type SingleProductFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
 
 type SingleProductProps = {
-	product: ProductItemType;
+	product: SingleProductFragmentFragment;
 };
 
 export const SingleProduct = ({ product }: SingleProductProps) => {
@@ -11,10 +13,10 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 			<div className="relative flex w-full pl-10 sm:w-1/2 sm:max-w-md ">
 				<div className="relative h-52 w-52 border-8 border-white lg:h-96 lg:w-96">
 					<img
-						src={product.coverImage.src}
+						src={product.images[0].url || ""}
 						width="320"
 						height="320"
-						alt={product.coverImage.alt || ""}
+						alt={product.name}
 						className="h-full w-full object-cover object-center transition duration-500 hover:scale-110"
 					/>
 				</div>
@@ -30,7 +32,23 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 					<div className="font pb-5 text-2xl leading-snug tracking-wide text-gray-500 lg:text-xl">
 						{product.description}
 					</div>
-					<article className="prose lg:prose-xl">opis</article>
+					{product.collections &&
+						product.collections?.map((col) => {
+							return (
+								<div
+									className="font text-base text-gray-600"
+									key={Number(col.id)}
+								>
+									Collections:
+									<Link
+										href={`/collection/${col.id}` as Route}
+										className="underline"
+									>
+										{col.name}
+									</Link>
+								</div>
+							);
+						})}
 				</div>
 				<div>
 					<div

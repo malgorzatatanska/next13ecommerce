@@ -1,0 +1,9 @@
+query CollectionGetById($id: ID!) {
+	collection(where: { id: $id }) {
+		name
+		description
+		products {
+			...ProductListItemFragment
+		}
+	}
+}

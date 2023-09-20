@@ -1,28 +1,13 @@
 import { executeGraphql } from "./graphqlApi";
+
 import {
-	type ProductResponseItemType,
-	type ProductItemType,
-} from "@/ui/types";
-import {
+	CollectionGetByIdDocument,
 	GetCategoryProductsCountDocument,
+	GetProductBySlugDocument,
 	ProductGetListDocument,
 	ProductsCountDocument,
 	ProductsGetByCategorySlugDocument,
 } from "@/gql/graphql";
-
-export const getProductById = async (
-	id: ProductResponseItemType["id"],
-) => {
-	const res = await fetch(
-		`https://naszsklep-api.vercel.app/api/products/${id}`,
-	);
-
-	const productResponse =
-		(await res.json()) as ProductResponseItemType;
-
-	return productResponseItemToProductItemType(productResponse);
-};
-
 export const getProductsList = async (pageNumber: string) => {
 	const graphqlResonse = await executeGraphql(
 		ProductGetListDocument,
@@ -85,18 +70,44 @@ export const getCategoryProductsCount = async (
 	return productsCount.categories[0].products?.length || 0;
 };
 
-const productResponseItemToProductItemType = (
-	productsResponse: ProductResponseItemType,
-): ProductItemType => {
-	return {
-		id: productsResponse.id,
-		category: productsResponse.category,
-		name: productsResponse.title,
-		price: productsResponse.price,
-		coverImage: {
-			alt: productsResponse.title,
-			src: productsResponse.image,
-		},
-		description: productsResponse.description,
-	};
+export const getProductBySlug = async (slug: string) => {
+	const product = await executeGraphql(GetProductBySlugDocument, {
+		slug,
+	});
+
+	if (!product) {
+		return null;
+	}
+
+	return product.product;
 };
+
+export const getCollectionById = async (collectionId: string) => {
+	const collection = await executeGraphql(CollectionGetByIdDocument, {
+		id: collectionId,
+	});
+
+	console.log(collection);
+
+	if (!collection) {
+		return null;
+	}
+
+	return collection.collection;
+};
+
+// const productResponseItemToProductItemType = (
+// 	productsResponse: ProductResponseItemType,
+// ): ProductItemType => {
+// 	return {
+// 		id: productsResponse.id,
+// 		category: productsResponse.category,
+// 		name: productsResponse.title,
+// 		price: productsResponse.price,
+// 		coverImage: {
+// 			alt: productsResponse.title,
+// 			src: productsResponse.image,
+// 		},
+// 		description: productsResponse.description,
+// 	};
+// };

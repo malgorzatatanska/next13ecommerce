@@ -1,0 +1,39 @@
+fragment SingleProductFragment on Product {
+	id
+	name
+	price
+	description
+	images {
+		url
+	}
+	categories(first: 1) {
+		name
+		slug
+	}
+	slug
+	collections {
+		id
+		name
+		slug
+	}
+	reviews(last: 10) {
+		id
+	}
+	variants {
+		... on ProductColorVariant {
+			id
+			name
+		}
+		... on ProductSizeColorVariant {
+			id
+			name
+			color
+			size
+		}
+		... on ProductSizeVariant {
+			id
+			name
+			size
+		}
+	}
+}

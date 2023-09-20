@@ -21,30 +21,7 @@ export const getProductById = async (
 	return productResponseItemToProductItemType(productResponse);
 };
 
-export const getProductsList = async ({
-	take,
-	offset,
-}: {
-	take?: string;
-	offset?: string;
-}) => {
-	const res = await fetch(
-		`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`,
-	);
-
-	const productsResponse =
-		(await res.json()) as ProductResponseItemType[];
-
-	const products = productsResponse.map(
-		(product): ProductItemType => {
-			return productResponseItemToProductItemType(product);
-		},
-	);
-
-	return products;
-};
-
-export const getProductsListNew = async (pageNumber: string) => {
+export const getProductsList = async (pageNumber: string) => {
 	const graphqlResonse = await executeGraphql(
 		ProductGetListDocument,
 		{

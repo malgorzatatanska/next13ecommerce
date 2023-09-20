@@ -50,7 +50,9 @@ export default async function Product({
 			<aside>
 				<Suspense fallback="Loading ...">
 					<div className="mx-auto max-w-2xl">
-						<SuggestedProductsList />
+						<SuggestedProductsList
+							categorySlug={product.categories[0].slug}
+						/>
 					</div>
 				</Suspense>
 			</aside>

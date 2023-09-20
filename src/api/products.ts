@@ -7,6 +7,7 @@ import {
 	ProductGetListDocument,
 	ProductsCountDocument,
 	ProductsGetByCategorySlugDocument,
+	SearchProductsDocument,
 } from "@/gql/graphql";
 export const getProductsList = async (pageNumber: string) => {
 	const graphqlResonse = await executeGraphql(
@@ -62,7 +63,6 @@ export const getCategoryProductsCount = async (
 			slug,
 		},
 	);
-	console.log(productsCount);
 	if (!productsCount) {
 		return 0;
 	}
@@ -87,8 +87,6 @@ export const getCollectionById = async (collectionId: string) => {
 		id: collectionId,
 	});
 
-	console.log(collection);
-
 	if (!collection) {
 		return null;
 	}
@@ -96,18 +94,13 @@ export const getCollectionById = async (collectionId: string) => {
 	return collection.collection;
 };
 
-// const productResponseItemToProductItemType = (
-// 	productsResponse: ProductResponseItemType,
-// ): ProductItemType => {
-// 	return {
-// 		id: productsResponse.id,
-// 		category: productsResponse.category,
-// 		name: productsResponse.title,
-// 		price: productsResponse.price,
-// 		coverImage: {
-// 			alt: productsResponse.title,
-// 			src: productsResponse.image,
-// 		},
-// 		description: productsResponse.description,
-// 	};
-// };
+export const getSearchProducts = async (searchValue: string) => {
+	const searchResponse = await executeGraphql(
+		SearchProductsDocument,
+		{
+			name: searchValue,
+		},
+	);
+
+	return searchResponse.products;
+};

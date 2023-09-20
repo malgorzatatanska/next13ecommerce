@@ -1,0 +1,5 @@
+query SearchProducts($name: String!) {
+	products(where: { name_starts_with: $name }) {
+		...ProductListItemFragment
+	}
+}

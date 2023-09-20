@@ -12,8 +12,6 @@ export default async function CategoryPageLayout({
 }) {
 	const products = await getCategoryProductsCount(params.category);
 
-	console.log(products, params.category);
-
 	const pages = Array.from(
 		{ length: Math.ceil(products / 4) },
 		(_, index) => index + 1,

@@ -9,8 +9,6 @@ export default async function CollectionsPage({
 }) {
 	const collection = await getCollectionById(params.collectionId);
 
-	console.log(collection);
-
 	if (!collection) {
 		return notFound();
 	}

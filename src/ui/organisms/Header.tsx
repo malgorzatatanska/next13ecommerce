@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
+import { Search } from "../atoms/Search";
 
 export const Header = () => {
 	return (
@@ -72,6 +73,9 @@ export const Header = () => {
 					</div>
 
 					<div className="flex items-center gap-4">
+						<div>
+							<Search />
+						</div>
 						<div className="sm:flex sm:gap-4">
 							<Link
 								className="rounded-md bg-pink-300 px-5 py-2.5 text-sm font-medium text-white shadow"

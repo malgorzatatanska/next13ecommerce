@@ -1,0 +1,10 @@
+fragment CollectionFragment on Collection {
+	id
+	slug
+	name
+	image {
+		height
+		width
+		url
+	}
+}

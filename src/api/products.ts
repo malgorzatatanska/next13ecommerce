@@ -2,6 +2,7 @@ import { executeGraphql } from "./graphqlApi";
 
 import {
 	CollectionGetByIdDocument,
+	CollectionGetListDocument,
 	GetCategoryProductsCountDocument,
 	GetProductBySlugDocument,
 	ProductGetListDocument,
@@ -92,6 +93,19 @@ export const getCollectionById = async (collectionId: string) => {
 	}
 
 	return collection.collection;
+};
+
+export const getCollectionList = async () => {
+	const collectionsResponse = await executeGraphql(
+		CollectionGetListDocument,
+		{},
+	);
+
+	if (!collectionsResponse) {
+		return [];
+	}
+
+	return collectionsResponse.collections || [];
 };
 
 export const getSearchProducts = async (searchValue: string) => {

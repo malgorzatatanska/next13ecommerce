@@ -1,7 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ProductList } from "@/ui/organisms/ProductList";
+import { getProductsList } from "@/api/products";
+import { CollectionList } from "@/ui/organisms/CollectionList";
 
-export default function Home() {
+export default async function Home() {
+	const products = await getProductsList("1");
+
 	return (
 		<>
 			<div className="relative  bg-gray-50">
@@ -84,6 +89,12 @@ export default function Home() {
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="mx-auto mt-20 flex max-w-7xl justify-center text-gray-400">
+					<CollectionList />
+				</div>
+				<div className="mx-auto mt-20 flex max-w-7xl justify-center text-gray-400">
+					<ProductList products={products} />
 				</div>
 			</div>
 		</>

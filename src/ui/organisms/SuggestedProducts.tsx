@@ -10,5 +10,9 @@ export const SuggestedProductsList = async ({
 }: SuggestedProductsProps) => {
 	const products = await getProductByCategorySlug(categorySlug, "1");
 
-	return <ProductList products={products} />;
+	return (
+		<div data-testid="related-products">
+			<ProductList products={products} />
+		</div>
+	);
 };

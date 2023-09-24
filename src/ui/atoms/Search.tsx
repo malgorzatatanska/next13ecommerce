@@ -7,7 +7,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 const schema = yup
 	.object({
-		searchValue: yup.string().required(),
+		search: yup.string().required(),
 	})
 	.required();
 
@@ -22,16 +22,16 @@ export const Search = () => {
 		useForm<SearchFormData>({});
 
 	const onSubmit = (data: SearchFormData) => {
-		if (data.searchValue && data.searchValue.length > 0) {
-			router.push(`/search?query=${data.searchValue}`);
-			resetField("searchValue");
+		if (data.search && data.search.length > 0) {
+			router.push(`/search?query=${data.search}`);
+			resetField("search");
 		}
 	};
 
 	useEffect(() => {
 		if (debouncedSearch.length > 0) {
 			router.push(`/search?query=${debouncedSearch}`);
-			resetField("searchValue");
+			resetField("search");
 		}
 	}, [debouncedSearch, router, resetField]);
 
@@ -41,7 +41,7 @@ export const Search = () => {
 		if (event.key === "Enter") {
 			if (event.currentTarget.value.length > 0) {
 				router.push(`/search?query=${search}`);
-				resetField("searchValue");
+				resetField("search");
 			}
 		}
 	};
@@ -57,10 +57,11 @@ export const Search = () => {
 					className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
 					type="text"
 					placeholder="search"
-					id="searchValue"
-					{...register("searchValue")}
+					id="search"
+					{...register("search")}
 					onChange={(e) => setSearch(e.target.value)}
 					onKeyDown={handleEnter}
+					role="searchbox"
 				/>
 				<div className="hidden sm:flex">
 					<button className="rounded-md bg-pink-300 px-5 py-2.5 text-sm font-medium text-white shadow">

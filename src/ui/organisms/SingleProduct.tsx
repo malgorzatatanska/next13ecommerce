@@ -1,13 +1,30 @@
 import Link from "next/link";
 import { type Route } from "next";
+import { cookies } from "next/headers";
 import { type SingleProductFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
+import { addToCart, getOrCreateCart } from "@/api/cart";
+import { AddToCartButton } from "@/app/product/[slug]/AddToCartButton";
 
 type SingleProductProps = {
 	product: SingleProductFragmentFragment;
 };
 
 export const SingleProduct = ({ product }: SingleProductProps) => {
+	async function addToCartAction(formData: FormData) {
+		"use server";
+
+		console.log(formData);
+		const cart = await getOrCreateCart();
+		console.log("dodaje cartId do ciastka", cart.id);
+		cookies().set("cartId", cart.id, {
+			httpOnly: true,
+			sameSite: "lax",
+			//secure: true -> ciastka dostepne tylko przez https.
+		});
+		await addToCart(cart.id, product.slug);
+	}
+
 	return (
 		<div className="mx-auto flex w-full max-w-5xl flex-col gap-10 pb-20 pt-20 lg:flex-row ">
 			<div className="relative flex w-full pl-10 sm:w-1/2 sm:max-w-md ">
@@ -51,12 +68,14 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 						})}
 				</div>
 				<div>
-					<div
-						data-testid="add-to-cart"
-						className="mt-5 inline-block cursor-pointer rounded-md border border-transparent bg-pink-600 px-10 py-3 text-center font-medium text-white hover:bg-pink-700"
-					>
-						Add to cart
-					</div>
+					<form action={addToCartAction}>
+						<input
+							type="hidden"
+							name="productId"
+							value={product.id}
+						/>
+						<AddToCartButton />
+					</form>
 				</div>
 			</div>
 		</div>

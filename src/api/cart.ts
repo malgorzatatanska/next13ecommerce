@@ -13,19 +13,7 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	if (existingCart) {
 		return existingCart;
 	}
-
-	// get info from the cookies on the server side.
-	// const cartId = cookies().get("cartId")?.value;
-	// if (cartId) {
-	// 	console.log("cartId from cookie", cartId);
-	// 	const cart = await getCartById(cartId);
-	// 	if (cart.order) {
-	// 		return cart.order;
-	// 	}
-	// }
-	console.log("no cartid in the cookies, creating a new cart");
 	const cart = await createCart();
-	console.log("created cart", cart);
 	if (!cart.createOrder) {
 		throw new Error("Could not create cart");
 	}
@@ -35,7 +23,6 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 export const getCartFromCookies = async () => {
 	const cartId = cookies().get("cartId")?.value;
 	if (cartId) {
-		console.log("cartId from cookie", cartId);
 		const cart = await executeGraphql(CartGetByIdDocument, {
 			id: cartId,
 		});
@@ -43,10 +30,6 @@ export const getCartFromCookies = async () => {
 			return cart.order;
 		}
 	}
-
-	// const cart = await executeGraphql(CartGetByIdDocument, {
-	// 	id: cartId,
-	// });
 };
 
 export const createCart = async () => {
@@ -64,6 +47,8 @@ export const addToCart = async (
 	if (!product) {
 		throw new Error("Product not found");
 	}
+
+	// create to co bylo ale jesli update to?
 
 	await executeGraphql(CreateOrderItemDocument, {
 		orderId: cartId,

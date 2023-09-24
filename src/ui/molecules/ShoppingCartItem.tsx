@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { type CartOrderItemFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
+import { IncrementProductQuantity } from "@/app/cart/IncrementProductQuantity";
 
 type ShoppingCartItemProps = {
 	cartItem: CartOrderItemFragmentFragment;
@@ -39,9 +40,13 @@ export const ShoppingCartItem = ({
 					W magazynie
 				</div>
 			</div>
-			<div className="flex w-1/5 flex-col justify-between">
-				<div className="text-sm font-semibold leading-6 text-gray-500">
-					Ilosc: {cartItem.quantity}
+			<div className="flex w-1/3 flex-col justify-between ">
+				<div className="flex justify-center gap-3 bg-center text-center text-sm font-semibold leading-6 text-gray-500">
+					<IncrementProductQuantity
+						quantity={cartItem.quantity}
+						cartId={cartItem.id}
+					/>
+					{/* <DecrementProductQuantity /> */}
 				</div>
 			</div>
 		</div>

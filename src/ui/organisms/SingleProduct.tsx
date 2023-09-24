@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { type Route } from "next";
 import { cookies } from "next/headers";
+import { ProductsAttribiutes } from "../atoms/ProductsAttribiutes";
 import { type SingleProductFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
 import { addToCart, getOrCreateCart } from "@/api/cart";
@@ -11,12 +12,10 @@ type SingleProductProps = {
 };
 
 export const SingleProduct = ({ product }: SingleProductProps) => {
-	async function addToCartAction(formData: FormData) {
+	async function addToCartAction() {
 		"use server";
 
-		console.log(formData);
 		const cart = await getOrCreateCart();
-		console.log("dodaje cartId do ciastka", cart.id);
 		cookies().set("cartId", cart.id, {
 			httpOnly: true,
 			sameSite: "lax",
@@ -67,6 +66,7 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 							);
 						})}
 				</div>
+				<ProductsAttribiutes />
 				<div>
 					<form action={addToCartAction}>
 						<input

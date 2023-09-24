@@ -6,6 +6,7 @@ fragment CartOrderItemFragment on OrderItem {
 		id
 		name
 		price
+		slug
 		images(first: 1) {
 			height
 			width

@@ -30,6 +30,8 @@ export const getCartFromCookies = async () => {
 			return cart.order;
 		}
 	}
+
+	return undefined;
 };
 
 export const createCart = async () => {
@@ -37,7 +39,7 @@ export const createCart = async () => {
 };
 
 export const addToCart = async (
-	cartId: string,
+	cart: CartFragment,
 	productId: string,
 ) => {
 	const { product } = await executeGraphql(GetProductBySlugDocument, {
@@ -48,12 +50,28 @@ export const addToCart = async (
 		throw new Error("Product not found");
 	}
 
-	// create to co bylo ale jesli update to?
+	// count product quantity in cart
+	const productQuantity = cart.orderItems?.reduce((acc, item) => {
+		if (item.product?.id === product.id) {
+			return acc + item.quantity;
+		}
+
+		return acc;
+	}, 0);
+
+	const orderItemId = cart.orderItems?.find((item) => {
+		if (item.product?.id === product.id) {
+			return item.id;
+		}
+	});
 
 	await executeGraphql(CreateOrderItemDocument, {
-		orderId: cartId,
+		orderId: cart.id,
 		productId: product.id,
 		quantity: 1,
 		total: product.price,
+		currentQuantity: productQuantity + 1,
+		currentTotal: product.price * (productQuantity + 1),
+		orderItemId: orderItemId?.id,
 	});
 };

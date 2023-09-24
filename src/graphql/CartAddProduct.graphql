@@ -1,16 +1,46 @@
+# mutation CreateOrderItem(
+# 	$quantity: Int!
+# 	$total: Int!
+# 	$productId: ID!
+# 	$orderId: ID!
+# ) {
+# 	createOrderItem(
+# 		data: {
+# 			quantity: $quantity
+# 			total: $total
+# 			product: { connect: { id: $productId } }
+# 			order: { connect: { id: $orderId } }
+# 		}
+# 	) {
+# 		id
+# 	}
+# }
+
 mutation CreateOrderItem(
 	$quantity: Int!
 	$total: Int!
 	$productId: ID!
 	$orderId: ID!
+	$currentQuantity: Int!
+	$currentTotal: Int!
+	$orderItemId: ID
 ) {
-	createOrderItem(
-		data: {
-			quantity: $quantity
-			total: $total
-			product: { connect: { id: $productId } }
-			order: { connect: { id: $orderId } }
+	upsertOrderItem(
+		upsert: {
+			create: {
+				quantity: $quantity
+				total: $total
+				product: { connect: { id: $productId } }
+				order: { connect: { id: $orderId } }
+			}
+			update: {
+				quantity: $currentQuantity
+				total: $currentTotal
+				product: { connect: { id: $productId } }
+				order: { connect: { id: $orderId } }
+			}
 		}
+		where: { id: $orderItemId }
 	) {
 		id
 	}

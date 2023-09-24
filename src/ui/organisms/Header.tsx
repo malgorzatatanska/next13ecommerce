@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Search } from "../atoms/Search";
+import { CartBar } from "../atoms/CartBar";
 
 export const Header = () => {
 	return (
@@ -92,6 +93,7 @@ export const Header = () => {
 									Register
 								</Link>
 							</div>
+							<CartBar />
 						</div>
 
 						<div className="block md:hidden">

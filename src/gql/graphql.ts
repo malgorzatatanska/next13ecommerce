@@ -11448,26 +11448,29 @@ export type CreateOrderItemMutationVariables = Exact<{
   total: Scalars['Int']['input'];
   productId: Scalars['ID']['input'];
   orderId: Scalars['ID']['input'];
+  currentQuantity: Scalars['Int']['input'];
+  currentTotal: Scalars['Int']['input'];
+  orderItemId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type CreateOrderItemMutation = { createOrderItem?: { id: string } | null };
+export type CreateOrderItemMutation = { upsertOrderItem?: { id: string } | null };
 
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
+export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
 
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
+export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
 
-export type CartFragment = { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> };
+export type CartFragment = { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> };
 
-export type CartOrderItemFragmentFragment = { id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null };
+export type CartOrderItemFragmentFragment = { id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null };
 
 export type CartSetProductQuantityMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
@@ -11561,6 +11564,7 @@ export const CartOrderItemFragmentFragmentDoc = new TypedDocumentString(`
     id
     name
     price
+    slug
     images(first: 1) {
       height
       width
@@ -11584,6 +11588,7 @@ export const CartFragmentDoc = new TypedDocumentString(`
     id
     name
     price
+    slug
     images(first: 1) {
       height
       width
@@ -11664,9 +11669,10 @@ export const SingleProductFragmentFragmentDoc = new TypedDocumentString(`
 }
     `, {"fragmentName":"SingleProductFragment"}) as unknown as TypedDocumentString<SingleProductFragmentFragment, unknown>;
 export const CreateOrderItemDocument = new TypedDocumentString(`
-    mutation CreateOrderItem($quantity: Int!, $total: Int!, $productId: ID!, $orderId: ID!) {
-  createOrderItem(
-    data: {quantity: $quantity, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $orderId}}}
+    mutation CreateOrderItem($quantity: Int!, $total: Int!, $productId: ID!, $orderId: ID!, $currentQuantity: Int!, $currentTotal: Int!, $orderItemId: ID) {
+  upsertOrderItem(
+    upsert: {create: {quantity: $quantity, total: $total, product: {connect: {id: $productId}}, order: {connect: {id: $orderId}}}, update: {quantity: $currentQuantity, total: $currentTotal, product: {connect: {id: $productId}}, order: {connect: {id: $orderId}}}}
+    where: {id: $orderItemId}
   ) {
     id
   }
@@ -11694,6 +11700,7 @@ fragment CartOrderItemFragment on OrderItem {
     id
     name
     price
+    slug
     images(first: 1) {
       height
       width
@@ -11721,6 +11728,7 @@ fragment CartOrderItemFragment on OrderItem {
     id
     name
     price
+    slug
     images(first: 1) {
       height
       width

@@ -21,7 +21,7 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 			sameSite: "lax",
 			//secure: true -> ciastka dostepne tylko przez https.
 		});
-		await addToCart(cart.id, product.slug);
+		await addToCart(cart, product.slug);
 	}
 
 	return (

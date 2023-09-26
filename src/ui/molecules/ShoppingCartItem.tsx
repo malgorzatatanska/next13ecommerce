@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Delete } from "../atoms/DeleteButton";
 import { type CartOrderItemFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
 import { IncrementProductQuantity } from "@/app/cart/IncrementProductQuantity";
@@ -51,6 +52,7 @@ export const ShoppingCartItem = ({
 						quantity={cartItem.quantity}
 						cartId={cartItem.id}
 					/>
+					<Delete itemId={cartItem.id} />
 					{/* <DecrementProductQuantity /> */}
 				</div>
 			</div>

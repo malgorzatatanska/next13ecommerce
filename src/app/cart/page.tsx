@@ -2,8 +2,14 @@ import { redirect } from "next/navigation";
 import { getCartFromCookies } from "@/api/cart";
 import { ShoppingCartItem } from "@/ui/molecules/ShoppingCartItem";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 export default async function CartPage() {
+	console.log("CART PAGE");
 	const cart = await getCartFromCookies();
+	console.log("CART - CART PAGE", cart);
 
 	if (!cart) {
 		redirect("/");

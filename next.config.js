@@ -9,6 +9,8 @@ const nextConfig = {
 		typedRoutes: true,
 		mdxRs: true,
 		serverActions: true,
+		// workerThreads: false,
+		// cpus: 1,
 	},
 	async redirects() {
 		return [

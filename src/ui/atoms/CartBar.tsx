@@ -1,6 +1,10 @@
-import Link from "next/link";
+import { getCartFromCookies } from "@/api/cart";
 
-export const CartBar = () => {
+export const CartBar = async () => {
+	const cart = await getCartFromCookies();
+	console.log("CARTBAR COUNTER", cart?.orderItems.length);
+	const quantity = cart?.orderItems.length ?? 0;
+
 	const renderImage = (): JSX.Element => {
 		return (
 			<svg
@@ -21,17 +25,15 @@ export const CartBar = () => {
 	};
 
 	return (
-		<Link href="/cart">
-			<div className="flex">
-				<>
-					<div className="relative  p-2">
-						<div>{renderImage()}</div>
-						<span className="absolute right-[-10px] top-[-5px] mr-2 text-sm text-pink-600">
-							0
-						</span>
-					</div>
-				</>
-			</div>
-		</Link>
+		<div className="flex">
+			<>
+				<div className="relative  p-2">
+					<div>{renderImage()}</div>
+					<span className="absolute right-[-10px] top-[-5px] mr-2 text-sm text-pink-600">
+						{quantity}
+					</span>
+				</div>
+			</>
+		</div>
 	);
 };

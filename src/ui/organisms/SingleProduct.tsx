@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type Route } from "next";
-import { cookies } from "next/headers";
+import { revalidateTag } from "next/cache";
 import { ProductsAttribiutes } from "../atoms/ProductsAttribiutes";
 import { type SingleProductFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
@@ -16,12 +16,9 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 		"use server";
 
 		const cart = await getOrCreateCart();
-		cookies().set("cartId", cart.id, {
-			httpOnly: true,
-			sameSite: "lax",
-			//secure: true -> ciastka dostepne tylko przez https.
-		});
 		await addToCart(cart, product.slug);
+
+		revalidateTag("cart");
 	}
 
 	return (

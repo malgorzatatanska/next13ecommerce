@@ -11,10 +11,8 @@ export const IncrementProductQuantity = ({
 	quantity,
 	cartId,
 }: IncrementProductQuantityProps) => {
-	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
-		quantity,
-		(_state, newQuantity: number) => newQuantity,
-	);
+	const [optimisticQuantity, setOptimisticQuantity] =
+		useOptimistic(quantity);
 	return (
 		<form>
 			<button

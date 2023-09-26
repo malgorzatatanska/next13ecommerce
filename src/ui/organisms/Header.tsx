@@ -93,7 +93,9 @@ export const Header = () => {
 									Register
 								</Link>
 							</div>
-							<CartBar />
+							<Link href="/cart">
+								<CartBar />
+							</Link>
 						</div>
 
 						<div className="block md:hidden">

@@ -2,7 +2,6 @@ import { getCartFromCookies } from "@/api/cart";
 
 export const CartBar = async () => {
 	const cart = await getCartFromCookies();
-	console.log("CARTBAR COUNTER", cart?.orderItems.length);
 	const quantity = cart?.orderItems.length ?? 0;
 
 	const renderImage = (): JSX.Element => {

@@ -27,7 +27,6 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 
 export const getCartFromCookies = async () => {
 	const cartId = cookies().get("cartId")?.value;
-	console.log("cart id from cookies", cartId);
 	if (cartId) {
 		const cart = await executeGraphql({
 			query: CartGetByIdDocument,
@@ -39,7 +38,6 @@ export const getCartFromCookies = async () => {
 			},
 			cache: "no-store",
 		});
-		console.log("cart CartGetByIdDocument", cart.order);
 		if (cart.order) {
 			return cart.order;
 		}

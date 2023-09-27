@@ -16,8 +16,8 @@ fragment SingleProductFragment on Product {
 		name
 		slug
 	}
-	reviews(last: 10) {
-		id
+	reviews(last: 5) {
+		...ReviewFragment
 	}
 	variants {
 		... on ProductColorVariant {

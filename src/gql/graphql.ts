@@ -11513,7 +11513,7 @@ export type GetProductBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductBySlugQuery = { product?: { id: string, name: string, price: number, description: string, slug: string, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }>, collections: Array<{ id: string, name: string, slug: string }>, reviews: Array<{ id: string }>, variants: Array<{ id: string, name: string } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
+export type GetProductBySlugQuery = { product?: { id: string, name: string, price: number, description: string, slug: string, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }>, collections: Array<{ id: string, name: string, slug: string }>, reviews: Array<{ id: string, headline: string, content: string, rating?: number | null, name: string, email: string }>, variants: Array<{ id: string, name: string } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
 
 export type ProductGetListQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -11539,6 +11539,29 @@ export type ProductsGetByCategorySlugQueryVariables = Exact<{
 
 export type ProductsGetByCategorySlugQuery = { categories: Array<{ products: Array<{ id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> }> }> };
 
+export type ReviewAddMutationVariables = Exact<{
+  review: ReviewCreateInput;
+}>;
+
+
+export type ReviewAddMutation = { review?: { id: string, stage: Stage } | null };
+
+export type ReviewFragmentFragment = { id: string, headline: string, content: string, rating?: number | null, name: string, email: string };
+
+export type ReviewGetByProductSlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ReviewGetByProductSlugQuery = { reviews: Array<{ id: string, headline: string, content: string, rating?: number | null, name: string, email: string }> };
+
+export type PublishReviewMutationVariables = Exact<{
+  reviewId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishReviewMutation = { publishReview?: { id: string } | null };
+
 export type SearchProductsQueryVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
@@ -11546,7 +11569,7 @@ export type SearchProductsQueryVariables = Exact<{
 
 export type SearchProductsQuery = { products: Array<{ id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> }> };
 
-export type SingleProductFragmentFragment = { id: string, name: string, price: number, description: string, slug: string, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }>, collections: Array<{ id: string, name: string, slug: string }>, reviews: Array<{ id: string }>, variants: Array<{ id: string, name: string } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
+export type SingleProductFragmentFragment = { id: string, name: string, price: number, description: string, slug: string, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }>, collections: Array<{ id: string, name: string, slug: string }>, reviews: Array<{ id: string, headline: string, content: string, rating?: number | null, name: string, email: string }>, variants: Array<{ id: string, name: string } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -11634,6 +11657,16 @@ export const ProductListItemFragmentFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductListItemFragment"}) as unknown as TypedDocumentString<ProductListItemFragmentFragment, unknown>;
+export const ReviewFragmentFragmentDoc = new TypedDocumentString(`
+    fragment ReviewFragment on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}
+    `, {"fragmentName":"ReviewFragment"}) as unknown as TypedDocumentString<ReviewFragmentFragment, unknown>;
 export const SingleProductFragmentFragmentDoc = new TypedDocumentString(`
     fragment SingleProductFragment on Product {
   id
@@ -11653,8 +11686,8 @@ export const SingleProductFragmentFragmentDoc = new TypedDocumentString(`
     name
     slug
   }
-  reviews(last: 10) {
-    id
+  reviews(last: 5) {
+    ...ReviewFragment
   }
   variants {
     ... on ProductColorVariant {
@@ -11674,7 +11707,14 @@ export const SingleProductFragmentFragmentDoc = new TypedDocumentString(`
     }
   }
 }
-    `, {"fragmentName":"SingleProductFragment"}) as unknown as TypedDocumentString<SingleProductFragmentFragment, unknown>;
+    fragment ReviewFragment on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}`, {"fragmentName":"SingleProductFragment"}) as unknown as TypedDocumentString<SingleProductFragmentFragment, unknown>;
 export const CreateOrderItemDocument = new TypedDocumentString(`
     mutation CreateOrderItem($quantity: Int!, $total: Int!, $productId: ID!, $orderId: ID!, $currentQuantity: Int!, $currentTotal: Int!, $orderItemId: ID) {
   upsertOrderItem(
@@ -11815,7 +11855,15 @@ export const GetProductBySlugDocument = new TypedDocumentString(`
     ...SingleProductFragment
   }
 }
-    fragment SingleProductFragment on Product {
+    fragment ReviewFragment on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}
+fragment SingleProductFragment on Product {
   id
   name
   price
@@ -11833,8 +11881,8 @@ export const GetProductBySlugDocument = new TypedDocumentString(`
     name
     slug
   }
-  reviews(last: 10) {
-    id
+  reviews(last: 5) {
+    ...ReviewFragment
   }
   variants {
     ... on ProductColorVariant {
@@ -11909,6 +11957,35 @@ export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCategorySlugQuery, ProductsGetByCategorySlugQueryVariables>;
+export const ReviewAddDocument = new TypedDocumentString(`
+    mutation ReviewAdd($review: ReviewCreateInput!) {
+  review: createReview(data: $review) {
+    id
+    stage
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewAddMutation, ReviewAddMutationVariables>;
+export const ReviewGetByProductSlugDocument = new TypedDocumentString(`
+    query ReviewGetByProductSlug($slug: String!) {
+  reviews(first: 10, where: {product: {slug: $slug}}) {
+    ...ReviewFragment
+  }
+}
+    fragment ReviewFragment on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}`) as unknown as TypedDocumentString<ReviewGetByProductSlugQuery, ReviewGetByProductSlugQueryVariables>;
+export const PublishReviewDocument = new TypedDocumentString(`
+    mutation PublishReview($reviewId: ID!) {
+  publishReview(where: {id: $reviewId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishReviewMutation, PublishReviewMutationVariables>;
 export const SearchProductsDocument = new TypedDocumentString(`
     query SearchProducts($name: String!) {
   products(where: {name_starts_with: $name}) {

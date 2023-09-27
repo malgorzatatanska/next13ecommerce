@@ -30,8 +30,12 @@ const documents = {
     "fragment ProductListItemFragment on Product {\n  id\n  name\n  price\n  slug\n  description\n  categories(first: 1) {\n    name\n    id\n    slug\n  }\n  images(first: 1) {\n    height\n    width\n    url\n  }\n}": types.ProductListItemFragmentFragmentDoc,
     "query ProductsCount {\n  products {\n    id\n  }\n}": types.ProductsCountDocument,
     "query ProductsGetByCategorySlug($slug: String!, $first: Int!, $skip: Int!) {\n  categories(where: {slug: $slug}) {\n    products(first: $first, skip: $skip) {\n      ...ProductListItemFragment\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
+    "mutation ReviewAdd($review: ReviewCreateInput!) {\n  review: createReview(data: $review) {\n    id\n    stage\n  }\n}": types.ReviewAddDocument,
+    "fragment ReviewFragment on Review {\n  id\n  headline\n  content\n  rating\n  name\n  email\n}": types.ReviewFragmentFragmentDoc,
+    "query ReviewGetByProductSlug($slug: String!) {\n  reviews(first: 10, where: {product: {slug: $slug}}) {\n    ...ReviewFragment\n  }\n}": types.ReviewGetByProductSlugDocument,
+    "mutation PublishReview($reviewId: ID!) {\n  publishReview(where: {id: $reviewId}) {\n    id\n  }\n}": types.PublishReviewDocument,
     "query SearchProducts($name: String!) {\n  products(where: {name_starts_with: $name}) {\n    ...ProductListItemFragment\n  }\n}": types.SearchProductsDocument,
-    "fragment SingleProductFragment on Product {\n  id\n  name\n  price\n  description\n  images {\n    url\n  }\n  categories(first: 1) {\n    name\n    slug\n  }\n  slug\n  collections {\n    id\n    name\n    slug\n  }\n  reviews(last: 10) {\n    id\n  }\n  variants {\n    ... on ProductColorVariant {\n      id\n      name\n    }\n    ... on ProductSizeColorVariant {\n      id\n      name\n      color\n      size\n    }\n    ... on ProductSizeVariant {\n      id\n      name\n      size\n    }\n  }\n}": types.SingleProductFragmentFragmentDoc,
+    "fragment SingleProductFragment on Product {\n  id\n  name\n  price\n  description\n  images {\n    url\n  }\n  categories(first: 1) {\n    name\n    slug\n  }\n  slug\n  collections {\n    id\n    name\n    slug\n  }\n  reviews(last: 5) {\n    ...ReviewFragment\n  }\n  variants {\n    ... on ProductColorVariant {\n      id\n      name\n    }\n    ... on ProductSizeColorVariant {\n      id\n      name\n      color\n      size\n    }\n    ... on ProductSizeVariant {\n      id\n      name\n      size\n    }\n  }\n}": types.SingleProductFragmentFragmentDoc,
 };
 
 /**
@@ -101,11 +105,27 @@ export function graphql(source: "query ProductsGetByCategorySlug($slug: String!,
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "mutation ReviewAdd($review: ReviewCreateInput!) {\n  review: createReview(data: $review) {\n    id\n    stage\n  }\n}"): typeof import('./graphql').ReviewAddDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "fragment ReviewFragment on Review {\n  id\n  headline\n  content\n  rating\n  name\n  email\n}"): typeof import('./graphql').ReviewFragmentFragmentDoc;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ReviewGetByProductSlug($slug: String!) {\n  reviews(first: 10, where: {product: {slug: $slug}}) {\n    ...ReviewFragment\n  }\n}"): typeof import('./graphql').ReviewGetByProductSlugDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation PublishReview($reviewId: ID!) {\n  publishReview(where: {id: $reviewId}) {\n    id\n  }\n}"): typeof import('./graphql').PublishReviewDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "query SearchProducts($name: String!) {\n  products(where: {name_starts_with: $name}) {\n    ...ProductListItemFragment\n  }\n}"): typeof import('./graphql').SearchProductsDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment SingleProductFragment on Product {\n  id\n  name\n  price\n  description\n  images {\n    url\n  }\n  categories(first: 1) {\n    name\n    slug\n  }\n  slug\n  collections {\n    id\n    name\n    slug\n  }\n  reviews(last: 10) {\n    id\n  }\n  variants {\n    ... on ProductColorVariant {\n      id\n      name\n    }\n    ... on ProductSizeColorVariant {\n      id\n      name\n      color\n      size\n    }\n    ... on ProductSizeVariant {\n      id\n      name\n      size\n    }\n  }\n}"): typeof import('./graphql').SingleProductFragmentFragmentDoc;
+export function graphql(source: "fragment SingleProductFragment on Product {\n  id\n  name\n  price\n  description\n  images {\n    url\n  }\n  categories(first: 1) {\n    name\n    slug\n  }\n  slug\n  collections {\n    id\n    name\n    slug\n  }\n  reviews(last: 5) {\n    ...ReviewFragment\n  }\n  variants {\n    ... on ProductColorVariant {\n      id\n      name\n    }\n    ... on ProductSizeColorVariant {\n      id\n      name\n      color\n      size\n    }\n    ... on ProductSizeVariant {\n      id\n      name\n      size\n    }\n  }\n}"): typeof import('./graphql').SingleProductFragmentFragmentDoc;
 
 
 export function graphql(source: string) {

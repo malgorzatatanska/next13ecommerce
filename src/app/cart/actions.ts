@@ -9,6 +9,8 @@ import {
 	CartSetProductQuantityDocument,
 } from "@/gql/graphql";
 import { getCartFromCookies } from "@/api/cart";
+import { addProductReview, publishReview } from "@/api/reviews";
+import { type CommentFormData } from "@/ui/organisms/ReviewForm";
 
 export const removeItem = async (itemId: string) => {
 	return executeGraphql({
@@ -79,4 +81,27 @@ export const handlePaymentAction = async () => {
 	}
 	cookies().set("cartId", "");
 	redirect(checkoutSession.url);
+};
+
+export const addReview = async ({
+	review,
+	productId,
+}: {
+	review: CommentFormData;
+	productId: string;
+}) => {
+	const { headline, rating, name, email, content } = review;
+	const reviewId = await addProductReview({
+		review: {
+			content: content,
+			headline,
+			rating: Number(rating),
+			name,
+			email,
+		},
+		productId,
+	});
+	if (reviewId.review?.id) {
+		await publishReview(reviewId.review?.id);
+	}
 };

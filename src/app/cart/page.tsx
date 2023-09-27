@@ -12,7 +12,7 @@ export const fetchCache = "force-no-store";
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
 
-	if (!cart) {
+	if (!cart?.orderItems) {
 		redirect("/");
 	}
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Delete } from "../atoms/DeleteButton";
 import { type CartOrderItemFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
-import { IncrementProductQuantity } from "@/app/cart/IncrementProductQuantity";
+import { ChangeProductQuantity } from "@/app/cart/ChangeProductQuantity";
 
 type ShoppingCartItemProps = {
 	cartItem: CartOrderItemFragmentFragment;
@@ -46,14 +46,15 @@ export const ShoppingCartItem = ({
 					</div>
 				</div>
 			</Link>
-			<div className="flex w-1/3 flex-col justify-between ">
-				<div className="flex justify-center gap-3 bg-center text-center text-sm font-semibold leading-6 text-gray-500">
-					<IncrementProductQuantity
+			<div className="flex w-full flex-row justify-between  ">
+				<div className=" flex w-full  justify-center gap-3 bg-center text-center text-sm font-semibold leading-6 text-gray-500">
+					<ChangeProductQuantity
 						quantity={cartItem.quantity}
-						cartId={cartItem.id}
+						cartItemId={cartItem.id}
 					/>
+				</div>
+				<div className="flex  text-gray-500">
 					<Delete itemId={cartItem.id} />
-					{/* <DecrementProductQuantity /> */}
 				</div>
 			</div>
 		</div>

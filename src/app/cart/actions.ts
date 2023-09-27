@@ -28,6 +28,7 @@ export const changeItemQuantity = async (
 			itemId,
 			quantity,
 		},
+		cache: "no-store",
 	});
 
 	return productQuantity;

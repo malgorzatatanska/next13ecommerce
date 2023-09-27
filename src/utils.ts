@@ -11,7 +11,10 @@ export const getTotalPrice = (
 	total: number,
 	item: CartOrderItemFragmentFragment,
 ): number => {
-	return total + (item.product?.price ?? 0 * item.quantity);
+	if (!item.product) {
+		throw new Error("Missing product price");
+	}
+	return total + item.product.price * item.quantity;
 };
 
 export const calculateTotalAmount = (totalPrice: number) => {

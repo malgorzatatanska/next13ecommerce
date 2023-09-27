@@ -11,7 +11,6 @@ export async function POST(request: NextRequest): Promise<Response> {
 		typeof json.slug === "string"
 	) {
 		json.slug;
-		console.log(`Revalidating /product/${json.slug}`);
 		revalidatePath(`/product/${json.slug}`);
 		revalidatePath("/products");
 		return NextResponse.json(

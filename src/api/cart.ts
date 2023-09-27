@@ -33,10 +33,10 @@ export const getCartFromCookies = async () => {
 			variables: {
 				id: cartId,
 			},
+			cache: "no-store",
 			next: {
 				tags: ["cart"],
 			},
-			cache: "no-store",
 		});
 		if (cart.order) {
 			return cart.order;

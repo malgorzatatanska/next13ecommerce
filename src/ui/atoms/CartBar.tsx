@@ -28,7 +28,10 @@ export const CartBar = async () => {
 			<>
 				<div className="relative  p-2">
 					<div>{renderImage()}</div>
-					<span className="absolute right-[-10px] top-[-5px] mr-2 text-sm text-pink-600">
+					<span
+						data-testid="quantity"
+						className="absolute right-[-10px] top-[-5px] mr-2 text-sm text-pink-600"
+					>
 						{quantity}
 					</span>
 				</div>

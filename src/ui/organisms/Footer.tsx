@@ -4,7 +4,7 @@ export const Footer = () => {
 	return (
 		<footer
 			aria-label="Site Footer"
-			className=" 	border-2 border-gray-100 bg-white"
+			className=" 	border-2 border-gray-100 bg-white "
 		>
 			<div className="mx-auto max-w-screen-xl px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pt-10">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">

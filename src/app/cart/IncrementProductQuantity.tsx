@@ -16,6 +16,7 @@ export const IncrementProductQuantity = ({
 	return (
 		<form>
 			<button
+				data-testid="increment"
 				className="cursor-pointer text-gray-500"
 				formAction={async () => {
 					setOptimisticQuantity(optimisticQuantity + 1);

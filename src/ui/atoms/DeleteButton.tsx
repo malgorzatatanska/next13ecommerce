@@ -15,7 +15,7 @@ export const Delete = ({ itemId }: { itemId: string }) => {
 					await removeItem(itemId);
 					setTimeout(() => {
 						router.refresh();
-					}, 500);
+					}, 1000);
 				});
 			}}
 		>

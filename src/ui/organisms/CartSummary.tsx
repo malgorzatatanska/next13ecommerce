@@ -1,5 +1,9 @@
 import { type CartFragment } from "@/gql/graphql";
-import { calculateTotalAmount, getTotalPrice } from "@/utils";
+import {
+	calculateTotalAmount,
+	geTotalQuantity,
+	getTotalPrice,
+} from "@/utils";
 
 interface CartSummaryProps {
 	cart: CartFragment;
@@ -11,7 +15,7 @@ export const CartSummary = ({ cart }: CartSummaryProps) => {
 			Podsumowanie
 			<div className=" mt-6 flex justify-between text-sm font-semibold leading-6 text-gray-500">
 				<p>Liczba elementów:</p>
-				<p> {cart?.orderItems.length ?? 0}</p>
+				<p> {geTotalQuantity(cart?.orderItems ?? [])}</p>
 			</div>
 			<div className="mt-1 flex justify-between text-sm font-semibold leading-6 text-gray-500">
 				<p>Łączna wartość:</p>

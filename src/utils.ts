@@ -20,3 +20,9 @@ export const getTotalPrice = (
 export const calculateTotalAmount = (totalPrice: number) => {
 	return (totalPrice + totalPrice * 0.23).toFixed(2);
 };
+
+export const geTotalQuantity = (
+	orders: CartOrderItemFragmentFragment[],
+) => {
+	return orders.reduce((acc, item) => acc + item.quantity, 0);
+};

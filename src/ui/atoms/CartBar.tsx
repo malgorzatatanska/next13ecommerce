@@ -1,8 +1,9 @@
 import { getCartFromCookies } from "@/api/cart";
+import { geTotalQuantity } from "@/utils";
 
 export const CartBar = async () => {
 	const cart = await getCartFromCookies();
-	const quantity = cart?.orderItems.length ?? 0;
+	const quantity = geTotalQuantity(cart?.orderItems ?? []);
 
 	const renderImage = (): JSX.Element => {
 		return (

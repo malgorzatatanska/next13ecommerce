@@ -1,5 +1,6 @@
 "use client";
 import { experimental_useOptimistic as useOptimistic } from "react";
+import { revalidateTag } from "next/cache";
 import { changeItemQuantity } from "./actions";
 
 type IncrementProductQuantityProps = {
@@ -25,6 +26,7 @@ export const ChangeProductQuantity = ({
 						cartItemId,
 						optimisticQuantity + 1,
 					);
+					revalidateTag("cart");
 				}}
 			>
 				+

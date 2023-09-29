@@ -1,6 +1,6 @@
 "use client";
 import { experimental_useOptimistic as useOptimistic } from "react";
-import { revalidateTag } from "next/cache";
+import { useRouter } from "next/navigation";
 import { changeItemQuantity } from "./actions";
 
 type IncrementProductQuantityProps = {
@@ -12,6 +12,7 @@ export const ChangeProductQuantity = ({
 	quantity,
 	cartItemId,
 }: IncrementProductQuantityProps) => {
+	const router = useRouter();
 	const [optimisticQuantity, setOptimisticQuantity] =
 		useOptimistic(quantity);
 
@@ -26,7 +27,9 @@ export const ChangeProductQuantity = ({
 						cartItemId,
 						optimisticQuantity + 1,
 					);
-					revalidateTag("cart");
+					setTimeout(() => {
+						router.refresh();
+					}, 1000);
 				}}
 			>
 				+
@@ -41,6 +44,9 @@ export const ChangeProductQuantity = ({
 						cartItemId,
 						optimisticQuantity - 1,
 					);
+					setTimeout(() => {
+						router.refresh();
+					}, 1000);
 				}}
 			>
 				-

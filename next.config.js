@@ -2,12 +2,15 @@
 const nextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
 	images: {
-		domains: ["tailwindui.com"],
+		domains: ["tailwindui.com", "media.graphassets.com"],
 		formats: ["image/avif", "image/webp"],
 	},
 	experimental: {
 		typedRoutes: true,
 		mdxRs: true,
+		serverActions: true,
+		// workerThreads: false,
+		// cpus: 1,
 	},
 	async redirects() {
 		return [

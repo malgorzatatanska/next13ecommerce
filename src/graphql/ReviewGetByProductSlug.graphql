@@ -1,0 +1,5 @@
+query ReviewGetByProductSlug($slug: String!) {
+	reviews(first: 10, where: { product: { slug: $slug } }) {
+		...ReviewFragment
+	}
+}

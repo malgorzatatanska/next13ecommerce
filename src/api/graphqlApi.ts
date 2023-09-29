@@ -1,8 +1,15 @@
 import { type TypedDocumentString } from "@/gql/graphql";
-export const executeGraphql = async <TResult, TVariables>(
-	query: TypedDocumentString<TResult, TVariables>,
-	variables: TVariables,
-): Promise<TResult> => {
+export const executeGraphql = async <TResult, TVariables>({
+	query,
+	variables,
+	next,
+	cache,
+}: {
+	query: TypedDocumentString<TResult, TVariables>;
+	variables: TVariables;
+	next?: NextFetchRequestConfig;
+	cache?: RequestCache;
+}): Promise<TResult> => {
 	if (!process.env.GRAPHQL_URL)
 		throw new Error("GRAPHQL_URL is not defined");
 
@@ -10,11 +17,14 @@ export const executeGraphql = async <TResult, TVariables>(
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`,
 		},
 		body: JSON.stringify({
 			query /* GraphQL */,
 			variables,
 		}),
+		next,
+		cache,
 	});
 
 	type GraphQlResponse<T> =

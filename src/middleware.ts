@@ -8,10 +8,10 @@ export default authMiddleware({
 		"/",
 		"/search",
 		"/cart",
-		"/categories/(.*)",
-		"/collections/(.*)",
-		"/product/(.*)",
-		"/products/(.*)",
+		/\/categories\/(.*)/,
+		new RegExp("/collections/(.*)"),
+		new RegExp("/product/(.*)"),
+		new RegExp("/products/(.*)"),
 		"/cart/success",
 		"/api/webhook/stripe",
 	],
@@ -20,3 +20,8 @@ export default authMiddleware({
 export const config = {
 	matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+
+// "/categories/(.*)",
+// "/collections/(.*)",
+// 	"/product/(.*)",
+// "/products/(.*)",

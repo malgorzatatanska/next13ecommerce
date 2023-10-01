@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/ui/organisms/Header";
 import { Footer } from "@/ui/organisms/Footer";
 
@@ -12,23 +13,24 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-	children,
-} // modal,
-: {
+	children, // modal,
+}: {
 	children: React.ReactNode;
 	modal: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<div className="min-h-screen bg-gray-50">
-					<Header />
-					{children}
-					{/* {modal} */}
+		<ClerkProvider>
+			<html lang="en">
+				<body className={inter.className}>
+					<div className="min-h-screen bg-gray-50">
+						<Header />
+						{children}
+						{/* {modal} */}
 
-					<Footer />
-				</div>
-			</body>
-		</html>
+						<Footer />
+					</div>
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

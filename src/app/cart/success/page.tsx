@@ -22,6 +22,7 @@ export default async function CartSuccessPage({
 	const session = await stripe.checkout.sessions.retrieve(
 		searchParams.sessionId,
 	);
+
 	return (
 		<div className="mx-auto max-w-lg pb-20 pt-20 text-gray-500">
 			<h2>{session.payment_status}</h2>

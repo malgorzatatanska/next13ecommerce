@@ -14,6 +14,8 @@ export default authMiddleware({
 		new RegExp("/products/(.*)"),
 		"/cart/success",
 		"/api/webhook/stripe",
+		new RegExp("/polityka-prywatnosci"),
+		new RegExp("/regulamin"),
 	],
 });
 

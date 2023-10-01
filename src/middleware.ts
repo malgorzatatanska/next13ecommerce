@@ -8,7 +8,7 @@ export default authMiddleware({
 		"/",
 		"/search",
 		"/cart",
-		/\/categories\/(.*)/,
+		new RegExp("/categories/(.*)"),
 		new RegExp("/collections/(.*)"),
 		new RegExp("/product/(.*)"),
 		new RegExp("/products/(.*)"),

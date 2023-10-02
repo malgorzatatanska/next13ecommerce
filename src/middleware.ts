@@ -18,6 +18,6 @@ export default authMiddleware({
 		"/api/webhook/stripe",
 		new RegExp("/polityka-prywatnosci"),
 		new RegExp("/regulamin"),
-		new RegExp("/not-found"),
+		new RegExp("/_not-found"),
 	],
 });

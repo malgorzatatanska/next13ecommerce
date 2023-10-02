@@ -93,7 +93,7 @@ export default async function Home() {
 				<div className="mx-auto mt-20 flex max-w-7xl justify-center text-gray-400">
 					<CollectionList />
 				</div>
-				<div className="mx-auto mt-20 flex max-w-7xl justify-center text-gray-400">
+				<div className="mx-auto mt-20 flex max-w-7xl justify-center pb-20 text-gray-400">
 					<ProductList products={products} />
 				</div>
 			</div>

@@ -1,3 +1,4 @@
+import { log } from "console";
 import { executeGraphql } from "./graphqlApi";
 
 import {
@@ -11,6 +12,7 @@ import {
 	SearchProductsDocument,
 } from "@/gql/graphql";
 export const getProductsList = async (pageNumber: string) => {
+	log("pageNumber", parseInt(pageNumber) - 1);
 	const graphqlResonse = await executeGraphql({
 		query: ProductGetListDocument,
 		variables: {

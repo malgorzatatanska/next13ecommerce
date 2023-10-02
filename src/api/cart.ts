@@ -58,12 +58,15 @@ export const getCartFromCookies = async () => {
 
 export const createCart = async () => {
 	const user = await currentUser();
-	const userEmail = user?.emailAddresses[0].emailAddress || "";
+	const userEmail =
+		user?.emailAddresses[0].emailAddress ||
+		"malgosiasmieja+admin@gmail.com";
+	console.log(user, userEmail);
 
 	return executeGraphql({
 		query: CartCreateDocument,
 		variables: {
-			email: userEmail ? userEmail : "",
+			email: userEmail,
 		},
 		cache: "no-store",
 	});

@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/ui/organisms/Header";
 import { Footer } from "@/ui/organisms/Footer";
 
@@ -19,16 +18,14 @@ export default function RootLayout({
 	modal: React.ReactNode;
 }) {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body className={inter.className}>
-					<div className="min-h-screen bg-gray-50">
-						<Header />
-						{children}
-						<Footer />
-					</div>
-				</body>
-			</html>
-		</ClerkProvider>
+		<html lang="en">
+			<body className={inter.className}>
+				<div className="min-h-screen bg-gray-50">
+					<Header />
+					{children}
+					<Footer />
+				</div>
+			</body>
+		</html>
 	);
 }

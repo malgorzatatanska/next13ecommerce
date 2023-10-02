@@ -10,7 +10,7 @@ export const CollectionItem = ({
 }: CollectionListItemProps) => {
 	return (
 		<div className="">
-			<Link href={`/collection/${collection.id}`}>
+			<Link href={`/collections/${collection.id}`}>
 				<div className="bg-gray-10 rounded-lg">
 					<img
 						className="mb-6 h-40 w-full rounded object-cover object-center"

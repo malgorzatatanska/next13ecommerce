@@ -56,7 +56,7 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
 									>
 										Collections:
 										<Link
-											href={`/collection/${col.id}` as Route}
+											href={`/collections/${col.id}` as Route}
 											className="underline"
 										>
 											{col.name}

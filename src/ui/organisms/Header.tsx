@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+	SignInButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from "@clerk/nextjs";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Search } from "../atoms/Search";
 import { CartBar } from "../atoms/CartBar";
@@ -77,22 +83,43 @@ export const Header = () => {
 						<div>
 							<Search />
 						</div>
+
 						<div className="sm:flex sm:gap-4">
-							<Link
+							{/* <Link
 								className="rounded-md bg-pink-300 px-5 py-2.5 text-sm font-medium text-white shadow"
 								href="/"
 							>
 								Login
-							</Link>
+							</Link> */}
+							<SignedIn>
+								<div className="flex items-center justify-center underline">
+									<Link
+										href="/orders"
+										className="undeline cursor-pointer text-gray-500 transition"
+									>
+										Moje zamówienia
+									</Link>
+								</div>
 
-							<div className="hidden sm:flex">
+								<UserButton
+									userProfileMode="navigation"
+									afterSignOutUrl="/"
+								/>
+							</SignedIn>
+							<SignedOut>
+								<div className="rounded-md bg-pink-300 px-5 py-2.5 text-sm font-medium text-white shadow">
+									<SignInButton />
+								</div>
+							</SignedOut>
+
+							{/* <div className="hidden sm:flex">
 								<Link
 									className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-pink-300"
 									href="/"
 								>
 									Register
 								</Link>
-							</div>
+							</div> */}
 							<Link href="/cart">
 								<CartBar />
 							</Link>

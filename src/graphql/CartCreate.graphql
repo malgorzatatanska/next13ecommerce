@@ -1,10 +1,6 @@
-mutation CartCreate {
+mutation CartCreate($email: String!) {
 	createOrder(
-		data: {
-			total: 0
-			email: "malgosiasmieja@gmail.com"
-			stripeCheckoutId: "000"
-		}
+		data: { total: 0, email: $email, stripeCheckoutId: "" }
 	) {
 		...Cart
 	}

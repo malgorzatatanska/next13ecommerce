@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { type TypedDocumentString } from "@/gql/graphql";
 export const executeGraphql = async <TResult, TVariables>({
 	query,
@@ -13,19 +14,22 @@ export const executeGraphql = async <TResult, TVariables>({
 	if (!process.env.GRAPHQL_URL)
 		throw new Error("GRAPHQL_URL is not defined");
 
-	const res = await fetch(process.env.GRAPHQL_URL, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`,
+	const res = await fetch(
+		`${process.env.GRAPHQL_URL}?hash=${crypto.randomUUID()}`,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`,
+			},
+			body: JSON.stringify({
+				query /* GraphQL */,
+				variables,
+			}),
+			next,
+			cache,
 		},
-		body: JSON.stringify({
-			query /* GraphQL */,
-			variables,
-		}),
-		next,
-		cache,
-	});
+	);
 
 	type GraphQlResponse<T> =
 		| { data?: undefined; errors: { message: string }[] }

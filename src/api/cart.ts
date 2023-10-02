@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { currentUser } from "@clerk/nextjs";
 import { executeGraphql } from "./graphqlApi";
 import {
 	CartCreateDocument,
@@ -6,6 +7,7 @@ import {
 	CartGetByIdDocument,
 	CreateOrderItemDocument,
 	GetProductBySlugDocument,
+	OrderPublishDocument,
 } from "@/gql/graphql";
 
 export async function getOrCreateCart(): Promise<CartFragment> {
@@ -17,6 +19,7 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	if (!cart.createOrder) {
 		throw new Error("Could not create cart");
 	}
+
 	cookies().set("cartId", cart.createOrder.id, {
 		httpOnly: true,
 		sameSite: "lax",
@@ -24,6 +27,15 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	});
 	return cart.createOrder;
 }
+
+export const publishOrder = async (orderId: string) => {
+	return executeGraphql({
+		query: OrderPublishDocument,
+		variables: {
+			orderId,
+		},
+	});
+};
 
 export const getCartFromCookies = async () => {
 	const cartId = cookies().get("cartId")?.value;
@@ -45,9 +57,14 @@ export const getCartFromCookies = async () => {
 };
 
 export const createCart = async () => {
+	const user = await currentUser();
+	const userEmail = user?.emailAddresses[0].emailAddress || "";
+
 	return executeGraphql({
 		query: CartCreateDocument,
-		variables: {},
+		variables: {
+			email: userEmail ? userEmail : "",
+		},
 		cache: "no-store",
 	});
 };

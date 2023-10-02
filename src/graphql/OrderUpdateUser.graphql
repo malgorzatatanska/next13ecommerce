@@ -1,0 +1,5 @@
+mutation OrderUpdateUser($id: ID!, $userId: String!) {
+	updateOrder(data: { userId: $userId }, where: { id: $id }) {
+		id
+	}
+}

@@ -1,0 +1,8 @@
+mutation OrderUpdatePaymentStatus($id: ID!, $paymentStatus: String!) {
+	updateOrder(
+		data: { paymentStatus: $paymentStatus }
+		where: { id: $id }
+	) {
+		id
+	}
+}

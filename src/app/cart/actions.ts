@@ -3,14 +3,16 @@
 import Stripe from "stripe";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
 import { executeGraphql } from "@/api/graphqlApi";
 import {
 	CartRemoveProductDocument,
 	CartSetProductQuantityDocument,
 } from "@/gql/graphql";
-import { getCartFromCookies } from "@/api/cart";
+import { getCartFromCookies, publishOrder } from "@/api/cart";
 import { addProductReview, publishReview } from "@/api/reviews";
 import { type CommentFormData } from "@/ui/organisms/ReviewForm";
+import { updateOrdersUser } from "@/api/orders";
 
 export const removeItem = async (itemId: string) => {
 	return executeGraphql({
@@ -38,6 +40,12 @@ export const changeItemQuantity = async (
 
 export const handlePaymentAction = async () => {
 	"use server";
+
+	const user = await currentUser();
+	if (!user) {
+		redirect("/sign-in");
+	}
+
 	if (!process.env.STRIPE_SECRET_KEY) {
 		throw new Error("Missing Stripe secret key env variable");
 	}
@@ -63,6 +71,9 @@ export const handlePaymentAction = async () => {
 				currency: "pln",
 				product_data: {
 					name: item.product?.name || "",
+					images: item.product?.images[0].url
+						? [item.product.images[0].url]
+						: [],
 				},
 				unit_amount: item.product?.price
 					? item.product.price * 100
@@ -76,9 +87,12 @@ export const handlePaymentAction = async () => {
 		cancel_url: "http://localhost:3000/cart/cancel",
 	});
 
+	await publishOrder(cart.id);
+	await updateOrdersUser(cart.id, user.id);
 	if (!checkoutSession.url) {
 		throw new Error("Missing checkout session url");
 	}
+
 	cookies().set("cartId", "");
 	redirect(checkoutSession.url);
 };

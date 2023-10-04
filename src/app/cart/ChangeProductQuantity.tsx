@@ -29,7 +29,7 @@ export const ChangeProductQuantity = ({
 					);
 					setTimeout(() => {
 						router.refresh();
-					}, 1000);
+					}, 100);
 				}}
 			>
 				+
@@ -46,7 +46,7 @@ export const ChangeProductQuantity = ({
 					);
 					setTimeout(() => {
 						router.refresh();
-					}, 1000);
+					}, 100);
 				}}
 			>
 				-

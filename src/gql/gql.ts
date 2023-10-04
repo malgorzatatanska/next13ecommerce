@@ -31,6 +31,7 @@ const documents = {
     "mutation OrderUpdateUser($id: ID!, $userId: String!) {\n  updateOrder(data: {userId: $userId}, where: {id: $id}) {\n    id\n  }\n}": types.OrderUpdateUserDocument,
     "query OrdersGetByEmail($email: String!) {\n  orders(where: {email: $email}) {\n    id\n    stage\n    total\n    createdAt\n    paymentStatus\n    orderItems {\n      product {\n        id\n        name\n        images {\n          url\n        }\n      }\n    }\n  }\n}": types.OrdersGetByEmailDocument,
     "query ProductGetList($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItemFragment\n  }\n}": types.ProductGetListDocument,
+    "query ProductGetListSortByPrice($sort: ProductOrderByInput!) {\n  products(orderBy: $sort) {\n    ...ProductListItemFragment\n  }\n}": types.ProductGetListSortByPriceDocument,
     "fragment ProductListItemFragment on Product {\n  id\n  name\n  price\n  slug\n  description\n  categories(first: 1) {\n    name\n    id\n    slug\n  }\n  images(first: 1) {\n    height\n    width\n    url\n  }\n}": types.ProductListItemFragmentFragmentDoc,
     "query ProductsCount {\n  products {\n    id\n  }\n}": types.ProductsCountDocument,
     "query ProductsGetByCategorySlug($slug: String!, $first: Int!, $skip: Int!) {\n  categories(where: {slug: $slug}) {\n    products(first: $first, skip: $skip) {\n      ...ProductListItemFragment\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
@@ -110,6 +111,10 @@ export function graphql(source: "query OrdersGetByEmail($email: String!) {\n  or
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductGetList($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItemFragment\n  }\n}"): typeof import('./graphql').ProductGetListDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductGetListSortByPrice($sort: ProductOrderByInput!) {\n  products(orderBy: $sort) {\n    ...ProductListItemFragment\n  }\n}"): typeof import('./graphql').ProductGetListSortByPriceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

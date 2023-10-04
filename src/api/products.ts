@@ -1,4 +1,5 @@
 import { executeGraphql } from "./graphqlApi";
+import { type SortTypes } from "@/ui/atoms/SortProduct";
 
 import {
 	CollectionGetByIdDocument,
@@ -6,6 +7,7 @@ import {
 	GetCategoryProductsCountDocument,
 	GetProductBySlugDocument,
 	ProductGetListDocument,
+	ProductGetListSortByPriceDocument,
 	ProductsCountDocument,
 	ProductsGetByCategorySlugDocument,
 	SearchProductsDocument,
@@ -129,4 +131,15 @@ export const getSearchProducts = async (searchValue: string) => {
 	});
 
 	return searchResponse.products;
+};
+
+export const getProductsSortByPrice = async (sort: SortTypes) => {
+	const products = await executeGraphql({
+		query: ProductGetListSortByPriceDocument,
+		variables: {
+			sort,
+		},
+	});
+
+	return products.products;
 };

@@ -61,7 +61,6 @@ export const createCart = async () => {
 	const userEmail =
 		user?.emailAddresses[0].emailAddress ||
 		"malgosiasmieja+admin@gmail.com";
-	console.log(user, userEmail);
 
 	return executeGraphql({
 		query: CartCreateDocument,

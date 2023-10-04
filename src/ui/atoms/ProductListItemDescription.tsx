@@ -21,7 +21,10 @@ export const ProductListItemDescription = ({
 				</p>
 			</div>
 			<div>
-				<p className="text-sm font-medium text-gray-900">
+				<p
+					className="text-sm font-medium text-gray-900"
+					data-testid="product-price"
+				>
 					{formatMoney(price / 100)}
 				</p>
 			</div>

@@ -1,0 +1,5 @@
+query ProductGetListSortByPrice($sort: ProductOrderByInput!) {
+	products(orderBy: $sort) {
+		...ProductListItemFragment
+	}
+}

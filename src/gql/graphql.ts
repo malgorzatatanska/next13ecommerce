@@ -11643,6 +11643,13 @@ export type ProductGetListQueryVariables = Exact<{
 
 export type ProductGetListQuery = { products: Array<{ id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> }> };
 
+export type ProductGetListSortByPriceQueryVariables = Exact<{
+  sort: ProductOrderByInput;
+}>;
+
+
+export type ProductGetListSortByPriceQuery = { products: Array<{ id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> }> };
+
 export type ProductListItemFragmentFragment = { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> };
 
 export type ProductsCountQueryVariables = Exact<{ [key: string]: never; }>;
@@ -12084,6 +12091,29 @@ export const ProductGetListDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductGetListQuery, ProductGetListQueryVariables>;
+export const ProductGetListSortByPriceDocument = new TypedDocumentString(`
+    query ProductGetListSortByPrice($sort: ProductOrderByInput!) {
+  products(orderBy: $sort) {
+    ...ProductListItemFragment
+  }
+}
+    fragment ProductListItemFragment on Product {
+  id
+  name
+  price
+  slug
+  description
+  categories(first: 1) {
+    name
+    id
+    slug
+  }
+  images(first: 1) {
+    height
+    width
+    url
+  }
+}`) as unknown as TypedDocumentString<ProductGetListSortByPriceQuery, ProductGetListSortByPriceQueryVariables>;
 export const ProductsCountDocument = new TypedDocumentString(`
     query ProductsCount {
   products {

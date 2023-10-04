@@ -34,7 +34,9 @@ export const ChangeProductQuantity = ({
 			>
 				+
 			</button>
-			<div className="text-3xl"> {optimisticQuantity}</div>
+			<div className="text-3xl" data-testid="quantity">
+				{optimisticQuantity}
+			</div>
 			<button
 				data-testid="decrement"
 				className="w-10 cursor-pointer text-xl text-gray-500"

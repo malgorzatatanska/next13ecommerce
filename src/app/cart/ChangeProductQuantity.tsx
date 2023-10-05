@@ -29,12 +29,14 @@ export const ChangeProductQuantity = ({
 					);
 					setTimeout(() => {
 						router.refresh();
-					}, 1000);
+					}, 100);
 				}}
 			>
 				+
 			</button>
-			<div className="text-3xl"> {optimisticQuantity}</div>
+			<div className="text-3xl" data-testid="quantity">
+				{optimisticQuantity}
+			</div>
 			<button
 				data-testid="decrement"
 				className="w-10 cursor-pointer text-xl text-gray-500"
@@ -46,7 +48,7 @@ export const ChangeProductQuantity = ({
 					);
 					setTimeout(() => {
 						router.refresh();
-					}, 1000);
+					}, 100);
 				}}
 			>
 				-

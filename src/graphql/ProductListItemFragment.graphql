@@ -4,6 +4,7 @@ fragment ProductListItemFragment on Product {
 	price
 	slug
 	description
+	averageRating
 	categories(first: 1) {
 		name
 		id

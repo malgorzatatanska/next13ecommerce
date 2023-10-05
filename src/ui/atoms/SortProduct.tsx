@@ -6,11 +6,15 @@ import { useState } from "react";
 export enum SortTypes {
 	price_ASC = "price_ASC",
 	price_DESC = "price_DESC",
+	averageRating_ASC = "averageRating_ASC",
+	averageRating_DESC = "averageRating_DESC",
 }
 
 export const SortingTypes = {
 	[SortTypes.price_ASC]: "Price ASC",
 	[SortTypes.price_DESC]: "Price DESC",
+	[SortTypes.averageRating_ASC]: "Rating ASC",
+	[SortTypes.averageRating_DESC]: "Rating DESC",
 };
 
 export const SortProduct = () => {
@@ -46,6 +50,18 @@ export const SortProduct = () => {
 					data-testid="sort-by-price"
 				>
 					{SortingTypes[SortTypes.price_DESC]}
+				</option>
+				<option
+					value={SortTypes.averageRating_ASC}
+					data-testid="sort-by-rating"
+				>
+					{SortingTypes[SortTypes.averageRating_ASC]}
+				</option>
+				<option
+					value={SortTypes.averageRating_DESC}
+					data-testid="sort-by-rating"
+				>
+					{SortingTypes[SortTypes.averageRating_DESC]}
 				</option>
 			</select>
 		</div>

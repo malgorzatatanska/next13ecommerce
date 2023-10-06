@@ -6,7 +6,12 @@ export async function POST(request: NextRequest): Promise<Response> {
 
 	console.log("hygraph webhook received !!!!");
 	if (!process.env.HYGRAPH_WEBHOOK_SECRET) {
-		throw new Error("Missing hygraph secret key env variable");
+		return NextResponse.json(
+			{ message: `No secret key !` },
+			{
+				status: 401,
+			},
+		);
 	}
 
 	const key = request.headers.get("key");

@@ -16,6 +16,7 @@ fragment SingleProductFragment on Product {
 		name
 		slug
 	}
+	averageRating
 	reviews(last: 5) {
 		...ReviewFragment
 	}

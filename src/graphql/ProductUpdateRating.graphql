@@ -1,0 +1,8 @@
+mutation ProductUpdateRating($id: ID!, $rating: String!) {
+	updateProduct(
+		data: { averageRating: $rating }
+		where: { id: $id }
+	) {
+		id
+	}
+}

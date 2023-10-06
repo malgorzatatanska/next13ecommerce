@@ -41,7 +41,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 		await updateProductRating(json.data.id, newRating.toString());
 
 		return NextResponse.json(
-			{ message: "Product updated" },
+			{ message: `Product updated ${json.data.id}, ${newRating}` },
 			{ status: 201 },
 		);
 	}

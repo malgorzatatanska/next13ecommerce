@@ -11,7 +11,12 @@ export async function POST(request: NextRequest): Promise<Response> {
 
 	const key = request.headers.get("key");
 	if (key !== process.env.HYGRAPH_WEBHOOK_KEY) {
-		return new Response("Bad key", { status: 401 });
+		return NextResponse.json(
+			{ message: `No key !` },
+			{
+				status: 401,
+			},
+		);
 	}
 
 	if (

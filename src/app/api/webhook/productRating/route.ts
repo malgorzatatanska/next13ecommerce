@@ -44,7 +44,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 	}
 
 	return NextResponse.json(
-		{ message: `Invalid body !! ` },
+		{ message: `Invalid body !! ${JSON.stringify(json)}` },
 		{
 			status: 400,
 		},

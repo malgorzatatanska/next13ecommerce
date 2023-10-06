@@ -29,19 +29,27 @@ export async function POST(request: NextRequest): Promise<Response> {
 		"data" in json &&
 		typeof json.data === "object" &&
 		json.data &&
-		"id" in json.data &&
-		typeof json.data.id === "string" &&
+		"product" in json.data &&
+		typeof json.data.product === "object" &&
+		json.data.product &&
+		"id" in json.data.product &&
+		typeof json.data.product.id === "string" &&
 		"rating" in json.data &&
 		typeof json.data.rating === "number"
 	) {
-		const product = await getProductById(json.data.id);
+		const product = await getProductById(json.data.product.id);
 		const newRating =
 			(Number(product?.averageRating) + json.data.rating) / 2;
 
-		await updateProductRating(json.data.id, newRating.toString());
+		await updateProductRating(
+			json.data.product.id,
+			newRating.toString(),
+		);
 
 		return NextResponse.json(
-			{ message: `Product updated ${json.data.id}, ${newRating}` },
+			{
+				message: `Product updated ${json.data.product.id}, ${newRating}`,
+			},
 			{ status: 201 },
 		);
 	}

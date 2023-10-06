@@ -36,7 +36,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 	) {
 		const product = await getProductById(json.data.id);
 		const newRating =
-			Number(product?.averageRating) + json.data.rating;
+			(Number(product?.averageRating) + json.data.rating) / 2;
 
 		await updateProductRating(json.data.id, newRating.toString());
 

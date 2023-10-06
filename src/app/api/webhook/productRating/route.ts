@@ -4,25 +4,25 @@ import { getProductById, updateProductRating } from "@/api/products";
 export async function POST(request: NextRequest): Promise<Response> {
 	const json: unknown = await request.json();
 
-	console.log("hygraph webhook received !!!!");
-	if (!process.env.HYGRAPH_WEBHOOK_SECRET) {
-		return NextResponse.json(
-			{ message: `No secret key !` },
-			{
-				status: 401,
-			},
-		);
-	}
+	// console.log("hygraph webhook received !!!!");
+	// if (!process.env.HYGRAPH_WEBHOOK_SECRET) {
+	// 	return NextResponse.json(
+	// 		{ message: `No secret key !` },
+	// 		{
+	// 			status: 401,
+	// 		},
+	// 	);
+	// }
 
-	const key = request.headers.get("key");
-	if (key !== process.env.HYGRAPH_WEBHOOK_KEY) {
-		return NextResponse.json(
-			{ message: `No key !` },
-			{
-				status: 401,
-			},
-		);
-	}
+	// const key = request.headers.get("key");
+	// if (key !== process.env.HYGRAPH_WEBHOOK_KEY) {
+	// 	return NextResponse.json(
+	// 		{ message: `No key !` },
+	// 		{
+	// 			status: 401,
+	// 		},
+	// 	);
+	// }
 
 	if (
 		typeof json === "object" &&

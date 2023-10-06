@@ -11703,6 +11703,13 @@ export type ProductGetListSortByPriceQuery = { products: Array<{ id: string, nam
 
 export type ProductListItemFragmentFragment = { id: string, name: string, price: number, slug: string, description: string, averageRating?: string | null, categories: Array<{ name: string, id: string, slug: string }>, images: Array<{ height?: number | null, width?: number | null, url: string }> };
 
+export type ProductPublishMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ProductPublishMutation = { publishProduct?: { id: string } | null };
+
 export type ProductUpdateRatingMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   rating: Scalars['String']['input'];
@@ -12233,6 +12240,13 @@ export const ProductGetListSortByPriceDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductGetListSortByPriceQuery, ProductGetListSortByPriceQueryVariables>;
+export const ProductPublishDocument = new TypedDocumentString(`
+    mutation ProductPublish($productId: ID!) {
+  publishProduct(where: {id: $productId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ProductPublishMutation, ProductPublishMutationVariables>;
 export const ProductUpdateRatingDocument = new TypedDocumentString(`
     mutation ProductUpdateRating($id: ID!, $rating: String!) {
   updateProduct(data: {averageRating: $rating}, where: {id: $id}) {

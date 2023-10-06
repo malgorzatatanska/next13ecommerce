@@ -9,6 +9,7 @@ import {
 	GetProductBySlugDocument,
 	ProductGetListDocument,
 	ProductGetListSortByPriceDocument,
+	ProductPublishDocument,
 	ProductUpdateRatingDocument,
 	ProductsCountDocument,
 	ProductsGetByCategorySlugDocument,
@@ -170,6 +171,15 @@ export const updateProductRating = async (
 		variables: {
 			id,
 			rating,
+		},
+	});
+};
+
+export const publishProduct = async (id: string) => {
+	await executeGraphql({
+		query: ProductPublishDocument,
+		variables: {
+			productId: id,
 		},
 	});
 };

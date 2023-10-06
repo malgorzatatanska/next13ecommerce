@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
-import { getProductById, updateProductRating } from "@/api/products";
+import {
+	getProductById,
+	publishProduct,
+	updateProductRating,
+} from "@/api/products";
 
 export async function POST(request: NextRequest): Promise<Response> {
 	const json: unknown = await request.json();
@@ -46,6 +50,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 			json.data.product.id,
 			newRating.toString(),
 		);
+		await publishProduct(json.data.product.id);
 		revalidatePath("/products");
 
 		return NextResponse.json(

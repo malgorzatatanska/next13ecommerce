@@ -34,6 +34,7 @@ const documents = {
     "query ProductGetList($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItemFragment\n  }\n}": types.ProductGetListDocument,
     "query ProductGetListSortByPrice($sort: ProductOrderByInput!) {\n  products(orderBy: $sort) {\n    ...ProductListItemFragment\n  }\n}": types.ProductGetListSortByPriceDocument,
     "fragment ProductListItemFragment on Product {\n  id\n  name\n  price\n  slug\n  description\n  averageRating\n  categories(first: 1) {\n    name\n    id\n    slug\n  }\n  images(first: 1) {\n    height\n    width\n    url\n  }\n}": types.ProductListItemFragmentFragmentDoc,
+    "mutation ProductPublish($productId: ID!) {\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}": types.ProductPublishDocument,
     "mutation ProductUpdateRating($id: ID!, $rating: String!) {\n  updateProduct(data: {averageRating: $rating}, where: {id: $id}) {\n    id\n  }\n}": types.ProductUpdateRatingDocument,
     "query ProductsCount {\n  products {\n    id\n  }\n}": types.ProductsCountDocument,
     "query ProductsGetByCategorySlug($slug: String!, $first: Int!, $skip: Int!) {\n  categories(where: {slug: $slug}) {\n    products(first: $first, skip: $skip) {\n      ...ProductListItemFragment\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
@@ -125,6 +126,10 @@ export function graphql(source: "query ProductGetListSortByPrice($sort: ProductO
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "fragment ProductListItemFragment on Product {\n  id\n  name\n  price\n  slug\n  description\n  averageRating\n  categories(first: 1) {\n    name\n    id\n    slug\n  }\n  images(first: 1) {\n    height\n    width\n    url\n  }\n}"): typeof import('./graphql').ProductListItemFragmentFragmentDoc;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation ProductPublish($productId: ID!) {\n  publishProduct(where: {id: $productId}) {\n    id\n  }\n}"): typeof import('./graphql').ProductPublishDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

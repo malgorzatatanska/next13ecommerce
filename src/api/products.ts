@@ -5,9 +5,12 @@ import {
 	CollectionGetByIdDocument,
 	CollectionGetListDocument,
 	GetCategoryProductsCountDocument,
+	GetProductByIdDocument,
 	GetProductBySlugDocument,
 	ProductGetListDocument,
 	ProductGetListSortByPriceDocument,
+	ProductPublishDocument,
+	ProductUpdateRatingDocument,
 	ProductsCountDocument,
 	ProductsGetByCategorySlugDocument,
 	SearchProductsDocument,
@@ -142,4 +145,41 @@ export const getProductsSortByPrice = async (sort: SortTypes) => {
 	});
 
 	return products.products;
+};
+
+export const getProductById = async (id: string) => {
+	const product = await executeGraphql({
+		query: GetProductByIdDocument,
+		variables: {
+			id,
+		},
+	});
+
+	if (!product) {
+		return null;
+	}
+
+	return product.product;
+};
+
+export const updateProductRating = async (
+	id: string,
+	rating: string,
+) => {
+	await executeGraphql({
+		query: ProductUpdateRatingDocument,
+		variables: {
+			id,
+			rating,
+		},
+	});
+};
+
+export const publishProduct = async (id: string) => {
+	await executeGraphql({
+		query: ProductPublishDocument,
+		variables: {
+			productId: id,
+		},
+	});
 };

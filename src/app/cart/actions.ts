@@ -82,9 +82,8 @@ export const handlePaymentAction = async () => {
 			quantity: item.quantity,
 		})),
 		mode: "payment",
-		success_url:
-			"http://localhost:3000/cart/success?sessionId={CHECKOUT_SESSION_ID}",
-		cancel_url: "http://localhost:3000/cart/cancel",
+		success_url: `${process.env.PAGE_URL}/cart/success?sessionId={CHECKOUT_SESSION_ID}`,
+		cancel_url: `${process.env.PAGE_URL}/cart/cancel`,
 	});
 
 	await publishOrder(cart.id);

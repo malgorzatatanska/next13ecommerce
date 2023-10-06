@@ -1,0 +1,5 @@
+query GetProductById($id: ID!) {
+	product(where: { id: $id }) {
+		...SingleProductFragment
+	}
+}

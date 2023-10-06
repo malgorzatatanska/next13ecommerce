@@ -25,7 +25,8 @@ export default async function CartSuccessPage({
 
 	return (
 		<div className="mx-auto max-w-lg pb-20 pt-20 text-gray-500">
-			<h2>{session.payment_status}</h2>
+			<h1 className="mb-10">Dziękuje za zakupy w naszym sklepie !</h1>
+			<h2>Twoje zamówienie ma status: {session.payment_status}</h2>
 		</div>
 	);
 }

@@ -19,16 +19,21 @@ export async function POST(request: NextRequest): Promise<Response> {
 		typescript: true,
 	});
 
+	let event;
+
 	const signature = request.headers.get("stripe-signature");
 	if (!signature) {
 		return new Response("No signature", { status: 401 });
 	}
-
-	const event = stripe.webhooks.constructEvent(
-		await request.text(),
-		signature,
-		process.env.STRIPE_WEBHOOK_SECRET,
-	) as Stripe.DiscriminatedEvent;
+	try {
+		event = stripe.webhooks.constructEvent(
+			await request.text(),
+			signature,
+			process.env.STRIPE_WEBHOOK_SECRET,
+		) as Stripe.DiscriminatedEvent;
+	} catch (err) {
+		return new Response("Bad webhook key", { status: 401 });
+	}
 
 	switch (event.type) {
 		case "checkout.session.completed": {

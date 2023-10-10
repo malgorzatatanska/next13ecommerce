@@ -34,6 +34,7 @@ export const publishOrder = async (orderId: string) => {
 		variables: {
 			orderId,
 		},
+		cache: "no-store",
 	});
 };
 

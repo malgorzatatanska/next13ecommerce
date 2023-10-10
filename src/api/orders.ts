@@ -11,6 +11,7 @@ export const OrdersGetByEmail = async (email: string) => {
 		variables: {
 			email,
 		},
+		cache: "no-store",
 	});
 
 	if (!orders) {

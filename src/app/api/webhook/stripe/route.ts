@@ -5,7 +5,6 @@ import Stripe from "stripe";
 import { updatePaymentStatus } from "@/api/orders";
 
 export async function POST(request: NextRequest): Promise<Response> {
-	console.log("Stripe webhook received !!!!");
 	if (!process.env.STRIPE_SECRET_KEY) {
 		throw new Error("Missing Stripe secret key env variable");
 	}
@@ -37,7 +36,6 @@ export async function POST(request: NextRequest): Promise<Response> {
 
 	switch (event.type) {
 		case "checkout.session.completed": {
-			console.log("Payment completed");
 			// change the order status to paid
 			const orderId = event.data.object.metadata?.cartId;
 			if (!orderId) {
@@ -61,7 +59,6 @@ export async function POST(request: NextRequest): Promise<Response> {
 		}
 		case "checkout.session.async_payment_failed": {
 			//change the order status to failed
-			console.log("Payment failed");
 			const orderId = event.data.object.metadata?.cartId;
 			if (!orderId) {
 				return new Response(null, { status: 400 });

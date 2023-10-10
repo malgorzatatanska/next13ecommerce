@@ -11,7 +11,6 @@ export default async function OrdersPage() {
 	}
 
 	const orders = await OrdersGetByEmail(email);
-	console.log("zaowienia", orders);
 
 	return (
 		<div className="mx-auto text-gray-500">

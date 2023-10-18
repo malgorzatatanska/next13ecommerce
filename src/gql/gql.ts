@@ -42,7 +42,7 @@ const documents = {
     "fragment ReviewFragment on Review {\n  id\n  headline\n  content\n  rating\n  name\n  email\n}": types.ReviewFragmentFragmentDoc,
     "query ReviewGetByProductSlug($slug: String!) {\n  reviews(first: 10, where: {product: {slug: $slug}}) {\n    ...ReviewFragment\n  }\n}": types.ReviewGetByProductSlugDocument,
     "mutation PublishReview($reviewId: ID!) {\n  publishReview(where: {id: $reviewId}) {\n    id\n  }\n}": types.PublishReviewDocument,
-    "query SearchProducts($name: String!) {\n  products(where: {name_starts_with: $name}) {\n    ...ProductListItemFragment\n  }\n}": types.SearchProductsDocument,
+    "query SearchProducts($name: String!) {\n  products(where: {name_contains: $name}) {\n    ...ProductListItemFragment\n  }\n}": types.SearchProductsDocument,
     "fragment SingleProductFragment on Product {\n  id\n  name\n  price\n  description\n  images {\n    url\n  }\n  categories(first: 1) {\n    name\n    slug\n  }\n  slug\n  collections {\n    id\n    name\n    slug\n  }\n  averageRating\n  reviews(last: 5) {\n    ...ReviewFragment\n  }\n  variants {\n    ... on ProductColorVariant {\n      id\n      name\n    }\n    ... on ProductSizeColorVariant {\n      id\n      name\n      color\n      size\n    }\n    ... on ProductSizeVariant {\n      id\n      name\n      size\n    }\n  }\n}": types.SingleProductFragmentFragmentDoc,
 };
 
@@ -161,7 +161,7 @@ export function graphql(source: "mutation PublishReview($reviewId: ID!) {\n  pub
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query SearchProducts($name: String!) {\n  products(where: {name_starts_with: $name}) {\n    ...ProductListItemFragment\n  }\n}"): typeof import('./graphql').SearchProductsDocument;
+export function graphql(source: "query SearchProducts($name: String!) {\n  products(where: {name_contains: $name}) {\n    ...ProductListItemFragment\n  }\n}"): typeof import('./graphql').SearchProductsDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

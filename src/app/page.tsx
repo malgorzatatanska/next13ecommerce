@@ -17,9 +17,9 @@ export default async function Home() {
 								Twoje Źródło Pielęgnacji i Urody Online
 							</h1>
 							<p className="mt-6 text-xl text-gray-500">
-								This year, our new summer collection will shelter you
-								from the harsh elements of a world that doesnt care if
-								you live or die.
+								The new collection boasts a vibrant and eclectic range
+								of fashion-forward designs, perfect for those seeking
+								a fresh and distinctive style.
 							</p>
 							<div>
 								<Link

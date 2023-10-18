@@ -12318,7 +12318,7 @@ export const PublishReviewDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<PublishReviewMutation, PublishReviewMutationVariables>;
 export const SearchProductsDocument = new TypedDocumentString(`
     query SearchProducts($name: String!) {
-  products(where: {name_starts_with: $name}) {
+  products(where: {name_contains: $name}) {
     ...ProductListItemFragment
   }
 }
